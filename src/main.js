@@ -61,11 +61,26 @@ function Fatal({ error }) {
     h('button', { type: 'button', onClick: () => window.location.reload(), style: { minHeight: 44, padding: '0 18px', borderRadius: 9999, border: '1px solid #145AFF', background: '#fff', color: '#145AFF', font: 'inherit', fontWeight: 600, cursor: 'pointer' } }, 'ხელახლა ცდა'));
 }
 
+// Supabase returns HTTP errors from edge functions as a generic message; read the function's own text.
+async function invokeTeam(body) {
+  const { data, error } = await supabase.functions.invoke('cr-team', { body });
+  if (error) {
+    let msg = '';
+    try { const j = await error.context.json(); msg = j && j.error; } catch (e) { /* not JSON */ }
+    throw new Error(msg || 'მოქმედება ვერ შესრულდა — სცადეთ თავიდან');
+  }
+  if (data && data.error) throw new Error(data.error);
+  return data;
+}
+
 const api = hasSupabase ? {
+  // owners: Google / Apple
   signIn: (provider) => supabase.auth.signInWithOAuth({ provider, options: { redirectTo: home } })
     .then(({ error }) => { if (error) throw error; }),
-  signInEmail: (email) => supabase.auth.signInWithOtp({ email, options: { emailRedirectTo: home } })
+  // employees: email + password created by the owner
+  signInPassword: (email, password) => supabase.auth.signInWithPassword({ email, password })
     .then(({ error }) => { if (error) throw error; }),
+  team: invokeTeam,
   signOut: () => supabase.auth.signOut().finally(() => window.location.replace(home))
 } : null;
 
@@ -82,7 +97,7 @@ async function loadProviders() {
 
 async function boot() {
   if (DEMO) {
-    const instance = new Logic({ start: params.get('start') || 'home' });
+    const instance = new Logic({ start: params.get('start') || 'home', role: params.get('role') === 'staff' ? 'staff' : 'owner' });
     root.render(h(App, { instance, sync: null }));
     return;
   }
@@ -108,9 +123,9 @@ async function boot() {
     root.render(h(Fatal, { error }));
     return;
   }
-  const instance = new Logic({ start: data.company ? 'home' : 'onboard', api, data });
+  const instance = new Logic({ start: data.company ? 'home' : 'onboard', api, data, role: data.role });
   let last = snapshot(instance);
-  const sync = createSync(supabase, session.user.id, last, (st) => { if (sync && sync.onStatus) sync.onStatus(st); });
+  const sync = createSync(supabase, data.ownerId, last, (st) => { if (sync && sync.onStatus) sync.onStatus(st); }, { company: data.role === 'owner' });
   instance.subscribe(() => {
     const now = snapshot(instance);
     if (changed(last, now)) { last = now; sync.push(now); }

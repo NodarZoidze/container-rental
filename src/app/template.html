@@ -793,25 +793,24 @@
   <div style="flex: 1 1 auto"></div>
   <section aria-label="შესვლა" style="margin: 20px 16px 24px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 24px; padding: 20px; box-shadow: rgba(0,0,0,0.08) 0px 0.36px 1.8px -1.4px, rgba(0,0,0,0.07) 0px 1.37px 6.87px -2.8px, rgba(0,0,0,0.016) 0px 6px 30px -4.25px; display: flex; flex-direction: column; gap: 12px">
     <h2 style="margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: #020520">შესვლა ან რეგისტრაცია</h2>
-    <p style="margin: 0 0 4px; font-size: 14px; color: #6B7280">კომპანიის მფლობელი ერთხელ დარეგისტრირდება, შემდეგ კი იმავე ანგარიშით შევა.</p>
+    <p style="margin: 0 0 4px; font-size: 14px; line-height: 1.5; color: #6B7280">კომპანიის მფლობელი შედის Google-ით ან Apple-ით. თანამშრომელი — მფლობელისგან მიღებული ელფოსტით და პაროლით.</p>
     <sc-if value="{{ gBtn.show }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ gBtn.go }}" disabled="{{ gBtn.disabled }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">{{ gBtn.label }}</button></sc-if>
     <sc-if value="{{ aBtn.show }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ aBtn.go }}" disabled="{{ aBtn.disabled }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #020520; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">{{ aBtn.label }}</button></sc-if>
-    <sc-if value="{{ emailClosed }}" hint-placeholder-val="{{ true }}">
-      <button type="button" onClick="{{ toggleEmail }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 9999px; background: transparent; color: #145AFF; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">ელფოსტით შესვლა</button>
+    <sc-if value="{{ noOwnerLogin }}" hint-placeholder-val="{{ false }}">
+      <p style="margin: 0; padding: 10px 12px; border-radius: 12px; background: #F1F5F9; font-size: 13px; line-height: 1.45; color: #374151">მფლობელის შესვლა Google-ით ან Apple-ით ჯერ არ არის გააქტიურებული.</p>
     </sc-if>
-    <sc-if value="{{ emailOpen }}" hint-placeholder-val="{{ false }}">
-      <div style="display: flex; flex-direction: column; gap: 8px">
-        <input type="email" value="{{ emailVal }}" onChange="{{ setEmail }}" placeholder="name@example.com" aria-label="ელფოსტა" autocomplete="email" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
-        <button type="button" onClick="{{ sendEmail }}" disabled="{{ emailBusy }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{ emailBtn }}</button>
-      </div>
-    </sc-if>
-    <sc-if value="{{ emailSent }}" hint-placeholder-val="{{ false }}">
-      <div role="status" style="padding: 12px 14px; border-radius: 12px; background: #F0F4FE; display: flex; flex-direction: column; gap: 4px">
-        <span style="font-size: 14px; font-weight: 600; color: #020520">ბმული გაიგზავნა</span>
-        <span style="font-size: 13px; line-height: 1.45; color: #374151">გახსენით ელფოსტა {{ emailVal }} და დააჭირეთ შესვლის ბმულს.</span>
-        <button type="button" onClick="{{ emailAgain }}" style="align-self: flex-start; min-height: 36px; padding: 0; border: 0; background: transparent; color: #145AFF; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">სხვა ელფოსტა / ხელახლა გაგზავნა</button>
-      </div>
-    </sc-if>
+    <div aria-hidden="true" style="display: flex; align-items: center; gap: 10px; margin-top: 4px; font-size: 12px; color: #6B7280"><span style="flex: 1 1 auto; height: 1px; background: #E2E8F0"></span><span>თანამშრომლის შესვლა</span><span style="flex: 1 1 auto; height: 1px; background: #E2E8F0"></span></div>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <input type="email" value="{{ staffEmail }}" onChange="{{ setStaffEmail }}" onKeyDown="{{ staffKey }}" placeholder="ელფოსტა" aria-label="ელფოსტა" autocomplete="username" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+      <span style="display: flex; align-items: stretch; box-sizing: border-box; width: 100%; min-height: 50px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; overflow: hidden">
+        <input type="{{ staffPassType }}" value="{{ staffPass }}" onChange="{{ setStaffPass }}" onKeyDown="{{ staffKey }}" placeholder="პაროლი" aria-label="პაროლი" autocomplete="current-password" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; padding: 0 15px; border: 0; background: transparent; font: inherit; font-size: 16px; color: #14141E">
+        <button type="button" onClick="{{ toggleStaffPass }}" aria-label="{{ staffEyeLabel }}" style="flex: none; width: 48px; border: 0; background: transparent; color: #6B7280; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+        </button>
+      </span>
+      <button type="button" onClick="{{ staffSubmit }}" disabled="{{ staffBusy }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{ staffBtn }}</button>
+      <span style="font-size: 12px; line-height: 1.45; color: #6B7280">ელფოსტასა და პაროლს თანამშრომელს კომპანიის მფლობელი აძლევს.</span>
+    </div>
     <sc-if value="{{ hasAuthErr }}" hint-placeholder-val="{{ false }}">
       <p role="alert" style="margin: 0; font-size: 13px; font-weight: 500; color: #C2362A">{{ authErr }}</p>
     </sc-if>
@@ -984,19 +983,112 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M4 20.5V6.5l8-3 8 3v14"></path><path d="M9 20.5v-5h6v5M8 10h2M14 10h2"></path></svg>
       <span>კომპანიის პროფილი</span>
     </button>
-    <button type="button" role="menuitem" onClick="{{ editProfile }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #14141E; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+    <sc-if value="{{ isOwner }}" hint-placeholder-val="{{ true }}"><button type="button" role="menuitem" onClick="{{ editProfile }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #14141E; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="m13.5 6.5 4 4"></path></svg>
       <span>პროფილის რედაქტირება და ლოგო</span>
-    </button>
-    <button type="button" role="menuitem" onClick="{{ openPrices }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #14141E; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+    </button></sc-if>
+    <sc-if value="{{ isOwner }}" hint-placeholder-val="{{ true }}"><button type="button" role="menuitem" onClick="{{ openPrices }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #14141E; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M3.5 12.5V4.5a1 1 0 0 1 1-1h8l8 8-9 9z"></path><circle cx="8" cy="8" r="1.4"></circle></svg>
       <span>ფასები და ტარიფები</span>
-    </button>
+    </button></sc-if>
+    <sc-if value="{{ isOwner }}" hint-placeholder-val="{{ true }}"><button type="button" role="menuitem" onClick="{{ openTeam }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #14141E; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"></path><path d="M19 8v6M16 11h6"></path></svg>
+      <span style="flex: 1 1 auto">თანამშრომლები</span>
+      <span style="flex: none; font-size: 13px; color: #6B7280">{{ team.count }}</span>
+    </button></sc-if>
     <div aria-hidden="true" style="height: 1px; margin: 4px 8px; background: #E2E8F0"></div>
     <button type="button" role="menuitem" onClick="{{ signOut }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #C2362A; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M14 4.5H6.5v15H14"></path><path d="M10.5 12H20M16.5 8.5 20 12l-3.5 3.5"></path></svg>
       <span>ანგარიშიდან გასვლა</span>
     </button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showTeam }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end">
+  <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.35); cursor: pointer"></button>
+  <div role="dialog" aria-modal="true" aria-label="თანამშრომლები" style="position: relative; max-height: 94%; overflow-y: auto; scrollbar-width: none; background: #FFFFFF; border-radius: 28px 28px 0 0; box-shadow: rgba(2,5,32,0.12) 0px -8px 30px -4px; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 9999px; background: #E2E8F0"></span>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <h2 style="flex: 1 1 auto; min-width: 0; margin: 0; font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">თანამშრომლები</h2>
+      <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #6B7280">თანამშრომელი შედის ელფოსტით და პაროლით და მუშაობს კომპანიის დაფაზე: რეისები, კლიენტები, კონტეინერები, ჩარიცხვები. პროფილს, ფასებს, თანამშრომლებს და რეისის გაუქმებას მხოლოდ თქვენ მართავთ.</p>
+    <sc-if value="{{ team.hasCreated }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="flex: none; display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: 16px; background: #EEF8F2; border: 1px solid #B9E3C9">
+        <span style="font-size: 14px; font-weight: 600; color: #14532D">{{ team.created.title }}</span>
+        <span style="font-size: 13px; line-height: 1.45; color: #374151">{{ team.created.name }} — შესვლის მონაცემები. გადაეცით თანამშრომელს; პაროლი მხოლოდ ახლა ჩანს.</span>
+        <div style="display: flex; flex-direction: column; gap: 4px; padding: 10px 12px; border-radius: 12px; background: #FFFFFF; font-family: 'Roboto Mono', monospace; font-size: 14px; color: #14141E; overflow-wrap: anywhere">
+          <span>{{ team.created.email }}</span>
+          <span style="font-weight: 600">{{ team.created.password }}</span>
+        </div>
+        <div style="display: flex; gap: 8px">
+          <button type="button" onClick="{{ team.copy }}" style="min-height: 40px; padding: 0 14px; border: 1px solid #0B7A6E; border-radius: 9999px; background: #FFFFFF; color: #0B7A6E; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{ team.copyLabel }}</button>
+          <button type="button" onClick="{{ team.hideCreated }}" style="min-height: 40px; padding: 0 14px; border: 0; border-radius: 9999px; background: transparent; color: #374151; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">დამალვა</button>
+        </div>
+      </div>
+    </sc-if>
+    <div style="flex: none; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; display: flex; flex-direction: column">
+      <sc-for list="{{ team.rows }}" as="tm" hint-placeholder-count="2">
+        <div style="border-top: {{ tm.border }}; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <span aria-hidden="true" style="flex: none; width: 40px; height: 40px; border-radius: 9999px; background: #F0F4FE; color: #145AFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">{{ tm.initials }}</span>
+            <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+              <span style="font-size: 15px; font-weight: 500; color: #14141E">{{ tm.name }}</span>
+              <span style="font-size: 12.5px; color: #6B7280; overflow-wrap: anywhere">{{ tm.email }}</span>
+              <span style="font-size: 12px; color: #6B7280">{{ tm.added }}</span>
+            </span>
+          </div>
+          <sc-if value="{{ tm.idle }}" hint-placeholder-val="{{ true }}">
+            <div style="display: flex; gap: 8px">
+              <button type="button" onClick="{{ tm.startPass }}" style="min-height: 40px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">პაროლის შეცვლა</button>
+              <button type="button" onClick="{{ tm.startRemove }}" style="min-height: 40px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #C2362A; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">წაშლა</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tm.isPass }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <span style="display: flex; gap: 8px; min-width: 0">
+                <input type="text" value="{{ tm.newPass }}" onChange="{{ tm.setPass }}" placeholder="ახალი პაროლი" aria-label="ახალი პაროლი" autocomplete="off" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 44px; padding: 0 12px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 500; color: #14141E">
+                <button type="button" onClick="{{ tm.genPass }}" style="flex: none; min-height: 44px; padding: 0 12px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; color: #374151; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">გენერირება</button>
+              </span>
+              <div style="display: flex; gap: 8px">
+                <button type="button" onClick="{{ tm.savePass }}" disabled="{{ team.busy }}" style="min-height: 40px; padding: 0 14px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">შენახვა</button>
+                <button type="button" onClick="{{ tm.cancel }}" style="min-height: 40px; padding: 0 14px; border: 0; border-radius: 9999px; background: transparent; color: #374151; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">გაუქმება</button>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ tm.isRemove }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border-radius: 12px; background: #FFF5F4">
+              <span style="font-size: 13px; line-height: 1.45; color: #374151">წავშალოთ {{ tm.name }}? ის ვეღარ შევა დაფაზე. მის მიერ ჩაწერილი რეისები და ჩარიცხვები დარჩება.</span>
+              <div style="display: flex; gap: 8px">
+                <button type="button" onClick="{{ tm.confirmRemove }}" disabled="{{ team.busy }}" style="min-height: 40px; padding: 0 14px; border: 1px solid #C2362A; border-radius: 9999px; background: #FFFFFF; color: #C2362A; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">დიახ, წაშლა</button>
+                <button type="button" onClick="{{ tm.cancel }}" style="min-height: 40px; padding: 0 14px; border: 0; border-radius: 9999px; background: transparent; color: #374151; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">არა</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+      <sc-if value="{{ team.empty }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 0; padding: 16px; font-size: 14px; color: #6B7280">თანამშრომელი ჯერ არ გყავთ.</p>
+      </sc-if>
+    </div>
+    <section aria-label="ახალი თანამშრომელი" style="flex: none; display: flex; flex-direction: column; gap: 10px; padding: 14px; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF">
+      <span style="font-size: 15px; font-weight: 600; color: #020520">ახალი თანამშრომელი</span>
+      <input type="text" value="{{ team.name }}" onChange="{{ team.setName }}" placeholder="სახელი, გვარი" aria-label="თანამშრომლის სახელი" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+      <input type="email" value="{{ team.email }}" onChange="{{ team.setEmail }}" placeholder="ელფოსტა" aria-label="თანამშრომლის ელფოსტა" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+      <span style="display: flex; gap: 8px; min-width: 0">
+        <input type="text" value="{{ team.password }}" onChange="{{ team.setPassword }}" placeholder="პაროლი (მინ. 8 სიმბოლო)" aria-label="თანამშრომლის პაროლი" autocomplete="off" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 48px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font-family: 'Roboto Mono', monospace; font-size: 15px; font-weight: 500; color: #14141E">
+        <button type="button" onClick="{{ team.gen }}" style="flex: none; min-height: 48px; padding: 0 12px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; color: #374151; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">გენერირება</button>
+      </span>
+      <span style="font-size: 12px; line-height: 1.45; color: #6B7280">ელფოსტა და პაროლი გადაეცით თანამშრომელს — შესვლის გვერდზე „თანამშრომლის შესვლა“.</span>
+      <sc-if value="{{ team.hasErr }}" hint-placeholder-val="{{ false }}">
+        <span role="alert" style="font-size: 13px; font-weight: 500; color: #C2362A">{{ team.err }}</span>
+      </sc-if>
+      <button type="button" onClick="{{ team.add }}" disabled="{{ team.busy }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">{{ team.addBtn }}</button>
+    </section>
   </div>
 </div>
 </sc-if>
@@ -1171,10 +1263,10 @@
       </sc-for>
     </dl>
     <button type="button" onClick="{{ ts.openClient }}" style="min-height: 48px; padding: 0 24px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">კლიენტის ბარათი — {{ ts.clientShort }}</button>
-    <button type="button" onClick="{{ tdel.ask }}" style="align-self: center; appearance: none; border: 0; background: none; margin: 0; padding: 0 12px; min-height: 44px; font: inherit; font-size: 14px; font-weight: 500; color: #C2362A; cursor: pointer; display: flex; align-items: center; gap: 6px">
+    <sc-if value="{{ isOwner }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ tdel.ask }}" style="align-self: center; appearance: none; border: 0; background: none; margin: 0; padding: 0 12px; min-height: 44px; font: inherit; font-size: 14px; font-weight: 500; color: #C2362A; cursor: pointer; display: flex; align-items: center; gap: 6px">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"></path></svg>
       <span>რეისის გაუქმება</span>
-    </button>
+    </button></sc-if>
   </div>
 </div>
 </sc-if>
@@ -1438,7 +1530,7 @@
         </div>
       </sc-for>
     </dl>
-    <button type="button" onClick="{{ editProfile }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">პროფილის რედაქტირება</button>
+    <sc-if value="{{ isOwner }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ editProfile }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">პროფილის რედაქტირება</button></sc-if>
     <button type="button" onClick="{{ signOut }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">ანგარიშიდან გასვლა</button>
   </div>
 </div>

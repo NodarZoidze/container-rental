@@ -3,9 +3,9 @@
 // upserts / deletes. Runs one batch at a time; on failure the change is kept for retry.
 import { TABLES, TABLE_NAME, toRow, companyToRow } from './mapping.js';
 
-function index(snap, ownerId) {
+function index(snap, ownerId, opts) {
   const out = { company: null, tables: {} };
-  if (snap.registered && snap.company) {
+  if (snap.registered && snap.company && opts.company) {
     const row = Object.assign({ owner_id: ownerId }, companyToRow(snap.company, snap.prices));
     out.company = { row, json: JSON.stringify(row) };
   }
@@ -46,8 +46,10 @@ async function apply(sb, base, next) {
   }
 }
 
-export function createSync(sb, ownerId, initialSnap, onStatus) {
-  let base = index(initialSnap, ownerId);
+// ownerId: the company's owner (an employee writes rows under their employer's id).
+// opts.company: false for employees — only the owner edits the company profile and prices.
+export function createSync(sb, ownerId, initialSnap, onStatus, opts = { company: true }) {
+  let base = index(initialSnap, ownerId, opts);
   let pending = null;
   let running = false;
 
@@ -74,7 +76,7 @@ export function createSync(sb, ownerId, initialSnap, onStatus) {
 
   return {
     push(snap) {
-      const next = index(snap, ownerId);
+      const next = index(snap, ownerId, opts);
       pending = next;
       run();
     },

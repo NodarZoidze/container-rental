@@ -3,7 +3,7 @@
 კონტეინერების გაქირავების მართვის მობაილ ვებ-აპლიკაცია: რეისები (მიტანა / შეცვლა / გატანა), კლიენტები, ჩარიცხვები, ასაღები ვალები, შემოსავლები და კონტეინერების ინვენტარი.
 
 - **Frontend:** Vite + React (პროტოტიპის თარგი `src/app/template.html`, ლოგიკა `src/app/logic.js`)
-- **Backend:** Supabase (Postgres + Auth, Row Level Security — თითო მფლობელი მხოლოდ საკუთარ მონაცემებს ხედავს)
+- **Backend:** Supabase (Postgres + Auth, Row Level Security — თითო კომპანია მხოლოდ საკუთარ მონაცემებს ხედავს; Edge Function `cr-team` თანამშრომლების სამართავად)
 - **Hosting:** Vercel (GitHub-თან მიბმული, ყოველი push ავტომატურად იტვირთება)
 
 ## სტრუქტურა
@@ -19,6 +19,7 @@ src/
   lib/mapping.js        ობიექტი ⇄ ცხრილის სტრიქონი
   main.js               ავტორიზაცია და აპლიკაციის გაშვება
 supabase/migrations/    ბაზის სქემა და RLS წესები
+supabase/functions/     cr-team — თანამშრომლის დამატება / პაროლის შეცვლა / წაშლა
 ```
 
 ## ლოკალურად გაშვება
@@ -33,10 +34,10 @@ npm run dev
 
 ## Supabase
 
-1. SQL Editor-ში გაუშვით `supabase/migrations/20261029000000_init.sql`.
+1. SQL Editor-ში თანმიმდევრობით გაუშვით `supabase/migrations/`-ის ფაილები, შემდეგ დააინსტალირეთ ფუნქცია: `supabase functions deploy cr-team`.
 2. **Authentication → URL Configuration:** Site URL = საიტის მისამართი (მაგ. `https://container-rental.vercel.app`), Redirect URLs-ში დაამატეთ იგივე მისამართი და `http://localhost:5173`.
 3. **Authentication → Providers:**
-   - Email — ჩართულია ნაგულისხმევად (შესვლა ბმულით).
+   - Email — ჩართული უნდა დარჩეს: თანამშრომლები შედიან ელფოსტით და პაროლით, რომელსაც მფლობელი ქმნის მენიუში „თანამშრომლები“.
    - Google — საჭიროა Google Cloud-ის OAuth Client ID / Secret; Authorized redirect URI: `https://<project-ref>.supabase.co/auth/v1/callback`.
    - Apple — საჭიროა Apple Developer-ის Service ID, Key ID, Team ID და private key.
 
@@ -50,3 +51,8 @@ Environment Variables (Production + Preview):
 | `VITE_SUPABASE_ANON_KEY` | Supabase → Project Settings → API → publishable / anon key |
 
 Build: `npm run build`, Output: `dist` (იხ. `vercel.json`).
+
+## როლები
+
+- **მფლობელი** — შედის Google-ით ან Apple-ით, არეგისტრირებს კომპანიას; მართავს პროფილს, ფასებს, თანამშრომლებს და აუქმებს რეისებს.
+- **თანამშრომელი** — შედის მფლობელისგან მიღებული ელფოსტით და პაროლით; წერს რეისებს, კლიენტებს, კონტეინერებს და ჩარიცხვებს იმავე კომპანიის დაფაზე. წაშლა და კომპანიის რედაქტირება ბაზის დონეზეა აკრძალული.

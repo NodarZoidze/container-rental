@@ -23,7 +23,7 @@ export class DCLogic {
 var HOLE = /\{\{\s*([^}]+?)\s*\}\}/g;
 var SKIP_ATTR = /^hint-/;
 var ATTR_MAP = {
-  class: 'className', for: 'htmlFor', onclick: 'onClick', onchange: 'onChange', oninput: 'onInput',
+  class: 'className', for: 'htmlFor', onclick: 'onClick', onchange: 'onChange', oninput: 'onInput', onkeydown: 'onKeyDown',
   inputmode: 'inputMode', autocomplete: 'autoComplete', tabindex: 'tabIndex', readonly: 'readOnly',
   maxlength: 'maxLength', spellcheck: 'spellCheck', autofocus: 'autoFocus', viewbox: 'viewBox',
   'stroke-width': 'strokeWidth', 'stroke-linecap': 'strokeLinecap', 'stroke-linejoin': 'strokeLinejoin',

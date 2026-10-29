@@ -224,12 +224,13 @@ export default class Component extends DCLogic {
         this._seed.acct = { provider: 'google', email: 'owner@example.com', owner: 'გიორგი მ.' };
         this._seed.company = { name: 'ალფა კონტეინერი', form: 'შპს', code: '405123456', phone: '+995 555 00 11 22', city: 'ბათუმი', owner: 'გიორგი მ.', provider: 'google', email: 'owner@example.com', logo: '', prices: null };
       }
+      if (!this._seed.members) this._seed.members = [{ id: 'm1', name: 'ლევან ბერიძე', email: 'levan@example.com', created: '2026-10-12' }];
       D = this._seed;
     }
     if (!this._seed) this._seed = D;
     var live = !!this.props.data;
     var start = this.props.start || 'home';
-    var screens = { login: 'login', onboard: 'onboard', profile: 'home', home: 'home', stats: 'home', trips: 'trips', 'new': 'new', swap: 'new', containers: 'containers', reg: 'containers', clients: 'clients', newclient: 'clients', client: 'client', pay: 'clients', cash: 'cash', debts: 'debts', tripact: 'trips', tripdel: 'trips', payask: 'containers', pickpay: 'trips', menu: 'home', prices: 'home' };
+    var screens = { login: 'login', onboard: 'onboard', profile: 'home', home: 'home', stats: 'home', trips: 'trips', 'new': 'new', swap: 'new', containers: 'containers', reg: 'containers', clients: 'clients', newclient: 'clients', client: 'client', pay: 'clients', cash: 'cash', debts: 'debts', tripact: 'trips', tripdel: 'trips', payask: 'containers', pickpay: 'trips', menu: 'home', prices: 'home', team: 'home' };
     var acct = D.acct || { provider: '', email: '', owner: '' };
     var nc = this.blankNc(false);
     if (start === 'newclient') { nc.name = 'შპს ალგო მშენებელი'; nc.address = 'ტბელ აბუსერიძის ქ. 21'; }
@@ -260,13 +261,14 @@ export default class Component extends DCLogic {
       debtQ: '', debtFilter: 'all', debtSort: 'amount', debtsBack: 'home',
       clientId: live ? '' : (start === 'client' ? 'c3' : 'c1'), back: 'clients', clientTab: 'trips',
       form: this.blankForm(start === 'new' ? 'demo' : start === 'swap' ? 'swapdemo' : ''), formErr: '',
-      sheet: tSheet ? 'trip' : contSheet0 ? 'cont' : start === 'prices' ? 'prices' : start === 'reg' ? 'reg' : start === 'newclient' ? 'client-new' : start === 'pay' ? 'pay' : start === 'profile' ? 'profile' : null,
+      sheet: tSheet ? 'trip' : contSheet0 ? 'cont' : start === 'prices' ? 'prices' : start === 'team' ? 'team' : start === 'reg' ? 'reg' : start === 'newclient' ? 'client-new' : start === 'pay' ? 'pay' : start === 'profile' ? 'profile' : null,
       tripSheet: tSheet, contSheet: contSheet0, payAsk: payAsk0, next: nextInit, nextErr: '', delAsk: delAskInit, delPays: true,
       pay: this.blankPay(!live && start === 'pay' ? 'c1' : '', false), payErr: '',
       nc: nc, ncErr: '',
       reg: { vol: '7', custom: '', other: false, qty: '10' }, regErr: '',
       registered: live ? !!D.company : !(start === 'login' || start === 'onboard'), authBusy: '', authErr: '', acct: acct,
-      emailOpen: !!(this.props.api && !(this.props.providers && (this.props.providers.google || this.props.providers.apple))), emailVal: '', emailBusy: false, emailSent: false,
+      staffEmail: '', staffPass: '', staffShow: false, staffBusy: false,
+      members: (D.members || []).slice(), teamForm: null, teamEdit: null, teamBusy: false, teamErr: '', teamCreated: null, teamCopied: false,
       company: D.company ? Object.assign({ logo: '' }, D.company) : { name: '', form: 'შპს', code: '', phone: '', city: 'ბათუმი', owner: acct.owner || '', provider: acct.provider || '', email: acct.email || '', logo: '' },
       menuOpen: start === 'menu', logoErr: '', prices: (D.company && D.company.prices && Object.keys(D.company.prices).length) ? D.company.prices : null, pricesDraft: null, pricesErr: '',
       ob: this.blankOb('register', acct), obErr: '',
@@ -282,10 +284,132 @@ export default class Component extends DCLogic {
     this._tt = setTimeout(function () { self.setState({ toastPh: 'leave' }); }, 2500);
     this._t2 = setTimeout(function () { self.setState({ toast: null }); }, 2760);
   }
+  genPass() {
+    var A = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789', out = '';
+    while (!(/\d/.test(out) && /[a-z]/.test(out) && /[A-Z]/.test(out))) {
+      var r = new Uint32Array(10);
+      (typeof crypto !== 'undefined' && crypto.getRandomValues) ? crypto.getRandomValues(r) : r.forEach(function (_, i) { r[i] = Math.floor(Math.random() * 4294967295); });
+      out = ''; for (var i = 0; i < r.length; i++) out += A.charAt(r[i] % A.length);
+    }
+    return out;
+  }
+  authMsg(er, fallback) {
+    var m = String((er && er.message) || '');
+    if ((er && er.code === 'invalid_credentials') || /invalid login credentials/i.test(m)) return 'ელფოსტა ან პაროლი არასწორია';
+    if (/not confirmed/i.test(m)) return 'ელფოსტა დადასტურებული არ არის';
+    if (/rate limit|too many/i.test(m)) return 'ძალიან ბევრი მცდელობა — სცადეთ ცოტა ხანში';
+    if (/failed to fetch|network/i.test(m)) return 'ინტერნეტთან კავშირი ვერ დამყარდა';
+    return m || fallback;
+  }
+  staffLogin() {
+    var self = this, s = this.S();
+    if (s.staffBusy) return;
+    var em = String(s.staffEmail || '').trim().toLowerCase(), pw = String(s.staffPass || '');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { this.setState({ authErr: 'მიუთითეთ სწორი ელფოსტა' }); return; }
+    if (!pw) { this.setState({ authErr: 'შეიყვანეთ პაროლი' }); return; }
+    if (!this.props.api) {
+      this.flash({ screen: s.registered ? 'home' : 'login', sheet: null, staffPass: '', authErr: '' }, { title: 'შესვლა შესრულდა', detail: em });
+      return;
+    }
+    this.setState({ staffBusy: true, authErr: '' });
+    // success reloads the page through onAuthStateChange
+    this.props.api.signInPassword(em, pw).catch(function (er) {
+      self.setState({ staffBusy: false, authErr: self.authMsg(er, 'შესვლა ვერ მოხერხდა') });
+    });
+  }
+  teamCall(body) {
+    if (this.props.api && this.props.api.team) return this.props.api.team(body);
+    var self = this;
+    return new Promise(function (res) {
+      setTimeout(function () {
+        if (body.action === 'add') res({ member: { user_id: self.uid(), name: body.name, email: body.email, created_at: new Date().toISOString() } });
+        else res({ ok: true });
+      }, 500);
+    });
+  }
+  teamVals(s, set, val, LINE) {
+    var self = this;
+    var EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+    var members = s.members || [], tf = s.teamForm || { name: '', email: '', password: '' }, te = s.teamEdit || null;
+    var setF = function (patch) { set({ teamForm: Object.assign({}, tf, patch), teamErr: '' }); };
+    var fail = function (er) { self.setState({ teamBusy: false, teamErr: (er && er.message) || 'მოქმედება ვერ შესრულდა' }); };
+    var ini = function (n) { var w = String(n || '').trim().split(/\s+/); return (((w[0] || '').charAt(0)) + ((w[1] || '').charAt(0))) || '?'; };
+    var created = s.teamCreated;
+    var rows = members.map(function (m, j) {
+      var mine = te && te.id === m.id;
+      var setE = function (patch) { set({ teamEdit: Object.assign({}, te, patch), teamErr: '' }); };
+      return {
+        name: m.name, email: m.email, initials: ini(m.name), border: j === 0 ? '0' : LINE,
+        added: m.created ? 'დაემატა ' + self.dShort(String(m.created).slice(0, 10)) : '',
+        idle: !mine, isPass: !!mine && te.mode === 'pass', isRemove: !!mine && te.mode === 'remove',
+        newPass: mine && te.pass != null ? te.pass : '',
+        startPass: function () { set({ teamEdit: { id: m.id, mode: 'pass', pass: self.genPass() }, teamErr: '', teamCreated: null }); },
+        startRemove: function () { set({ teamEdit: { id: m.id, mode: 'remove' }, teamErr: '', teamCreated: null }); },
+        cancel: function () { set({ teamEdit: null, teamErr: '' }); },
+        setPass: function (e) { setE({ pass: String(val(e)).trim() }); },
+        genPass: function () { setE({ pass: self.genPass() }); },
+        savePass: function () {
+          var pw = String((te && te.pass) || '');
+          if (pw.length < 8) { set({ teamErr: 'პაროლი უნდა იყოს მინიმუმ 8 სიმბოლო' }); return; }
+          if (s.teamBusy) return;
+          set({ teamBusy: true, teamErr: '' });
+          self.teamCall({ action: 'password', user_id: m.id, password: pw }).then(function () {
+            self.flash({ teamBusy: false, teamEdit: null, teamCopied: false, teamCreated: { title: 'პაროლი შეიცვალა', name: m.name, email: m.email, password: pw } },
+              { title: 'პაროლი შეიცვალა', detail: m.name });
+          }).catch(fail);
+        },
+        confirmRemove: function () {
+          if (s.teamBusy) return;
+          set({ teamBusy: true, teamErr: '' });
+          self.teamCall({ action: 'remove', user_id: m.id }).then(function () {
+            self.flash({ teamBusy: false, teamEdit: null, members: (self.S().members || []).filter(function (x) { return x.id !== m.id; }) },
+              { title: 'თანამშრომელი წაიშალა', detail: m.name });
+          }).catch(fail);
+        }
+      };
+    });
+    return {
+      rows: rows, empty: members.length === 0, count: members.length ? String(members.length) : '',
+      name: tf.name, email: tf.email, password: tf.password,
+      setName: function (e) { setF({ name: val(e) }); },
+      setEmail: function (e) { setF({ email: val(e) }); },
+      setPassword: function (e) { setF({ password: String(val(e)).trim() }); },
+      gen: function () { setF({ password: self.genPass() }); },
+      busy: !!s.teamBusy, hasErr: !!s.teamErr, err: s.teamErr || '',
+      addBtn: s.teamBusy && !te ? 'ემატება…' : 'თანამშრომლის დამატება',
+      hasCreated: !!created, created: created || { title: '', name: '', email: '', password: '' },
+      copyLabel: s.teamCopied ? 'დაკოპირდა' : 'კოპირება',
+      copy: function () {
+        if (!created) return;
+        var txt = created.email + '\n' + created.password;
+        try { navigator.clipboard.writeText(txt).then(function () { self.setState({ teamCopied: true }); }, function () {}); } catch (er) {}
+      },
+      hideCreated: function () { set({ teamCreated: null, teamCopied: false }); },
+      add: function () {
+        var name = String(tf.name || '').trim(), em = String(tf.email || '').trim().toLowerCase(), pw = String(tf.password || '');
+        var err = !name ? 'მიუთითეთ თანამშრომლის სახელი'
+          : !EMAIL.test(em) ? 'მიუთითეთ სწორი ელფოსტა'
+          : pw.length < 8 ? 'პაროლი უნდა იყოს მინიმუმ 8 სიმბოლო'
+          : members.some(function (m) { return String(m.email).toLowerCase() === em; }) ? 'ეს თანამშრომელი უკვე დამატებულია'
+          : '';
+        if (err) { set({ teamErr: err }); return; }
+        if (s.teamBusy) return;
+        set({ teamBusy: true, teamErr: '', teamEdit: null });
+        self.teamCall({ action: 'add', name: name, email: em, password: pw }).then(function (res) {
+          var r = (res && res.member) || {};
+          var m = { id: r.user_id, name: r.name || name, email: r.email || em, created: r.created_at || '' };
+          self.flash({ teamBusy: false, members: (self.S().members || []).concat([m]), teamForm: { name: '', email: '', password: self.genPass() }, teamCopied: false,
+            teamCreated: { title: 'თანამშრომელი დაემატა', name: m.name, email: m.email, password: pw } },
+            { title: 'თანამშრომელი დაემატა', detail: m.name });
+        }).catch(fail);
+      }
+    };
+  }
   componentWillUnmount() { clearTimeout(this._t1); clearTimeout(this._tt); clearTimeout(this._t2); clearTimeout(this._at); }
 
   renderVals() {
     var self = this, K = this.K(), s = this.S(), T = K.today;
+    var isOwner = (this.props.role || 'owner') === 'owner';
     var set = function (o) { self.setState(o); };
     var noop = function () {};
     var val = function (e) { return e && e.target ? e.target.value : e; };
@@ -1069,11 +1193,11 @@ export default class Component extends DCLogic {
         hasLinked: linked.length > 0, linkedText: 'მიბმული ჩარიცხვაც გაუქმდეს — ' + this.fmt(linkedSum),
         payChecked: delPays,
         togglePays: function (e) { set({ delPays: e && e.target ? !!e.target.checked : !delPays }); },
-        ask: function () { set({ delAsk: true, delPays: true }); },
+        ask: function () { if (isOwner) set({ delAsk: true, delPays: true }); },
         cancel: function () { set({ delAsk: false }); },
         openBlocker: function () { if (blocker) set({ tripSheet: blocker.id, delAsk: false, next: null, nextErr: '' }); },
         confirm: function () {
-          if (blocker) return;
+          if (blocker || !isOwner) return;
           var pays = delPays
             ? s.payments.filter(function (p) { return p.trip !== tsT.id; })
             : s.payments.map(function (p) { return p.trip === tsT.id ? Object.assign({}, p, { trip: '' }) : p; });
@@ -1161,6 +1285,7 @@ export default class Component extends DCLogic {
       pz.reset = function () { set({ pricesDraft: mkDraft(true), pricesErr: '' }); };
       pz.hasErr = !!s.pricesErr; pz.err = s.pricesErr || '';
       pz.save = function () {
+        if (!isOwner) return;
         if (vols.some(function (v) { return !(self.num(pd[String(v)]) > 0); })) { set({ pricesErr: 'ყველა ფასი უნდა იყოს 0-ზე მეტი' }); return; }
         var np = Object.assign({}, s.prices);
         vols.forEach(function (v) { np[String(v)] = self.num(pd[String(v)]); });
@@ -1169,6 +1294,9 @@ export default class Component extends DCLogic {
     }
 
     var co = s.company, acct = s.acct || {};
+    // Team: the owner (Google / Apple account that registered the company) manages employees;
+    // employees sign in with the email + password the owner gave them.
+    var team = this.teamVals(s, set, val, LINE);
     var provLabel = function (p) { return p === 'apple' ? 'Apple ID' : p === 'google' ? 'Google ანგარიში' : 'ელფოსტა'; };
     var cw = String(co.name || '').split(' ');
     var coInitials = ((cw[0] || '').charAt(0) + (cw[1] || '').charAt(0)) || '?';
@@ -1219,7 +1347,9 @@ export default class Component extends DCLogic {
       ['ტელეფონი', co.phone],
       ['ქალაქი', co.city],
       ['ანგარიში', provLabel(co.provider) + (co.email ? ' · ' + co.email : ' · ელფოსტა დამალულია')]
-    ].filter(function (r) { return r[1]; }).map(function (r, j) { return { k: r[0], v: r[1], border: j === 0 ? '0' : LINE }; });
+    ].filter(function (r) { return r[1]; });
+    if (!isOwner) profRows = profRows.filter(function (r) { return r[0] !== 'ანგარიში'; }).concat([['თქვენი ანგარიში', (acct.owner ? acct.owner + ' · ' : '') + (acct.email || '') + ' · თანამშრომელი']]);
+    profRows = profRows.map(function (r, j) { return { k: r[0], v: r[1], border: j === 0 ? '0' : LINE }; });
 
     var tab = s.screen === 'client' ? 'clients' : s.screen;
     var navOf = function (k) {
@@ -1363,33 +1493,30 @@ export default class Component extends DCLogic {
 
       companyShort: co.name, companyFull: (co.form ? co.form + ' ' : '') + co.name, coInitials: coInitials,
       openProfile: function () { set({ sheet: 'profile', menuOpen: false }); },
-      openPrices: function () { set({ sheet: 'prices', menuOpen: false, pricesDraft: null, pricesErr: '' }); },
+      openPrices: function () { if (isOwner) set({ sheet: 'prices', menuOpen: false, pricesDraft: null, pricesErr: '' }); },
+      isOwner: isOwner, isStaff: !isOwner, team: team, showTeam: s.sheet === 'team' && isOwner,
+      openTeam: function () { if (isOwner) set({ sheet: 'team', menuOpen: false, teamErr: '', teamEdit: null, teamCreated: null, teamCopied: false, teamForm: { name: '', email: '', password: self.genPass() } }); },
       showPrices: s.sheet === 'prices', pz: pz,
       menuOpen: !!s.menuOpen, showMenu: !!s.menuOpen && s.screen === 'home',
       toggleMenu: function () { set({ menuOpen: !s.menuOpen }); },
       closeMenu: function () { set({ menuOpen: false }); },
-      menuSub: co.owner + (co.email ? ' · ' + co.email : ''),
+      menuSub: isOwner ? co.owner + (co.email ? ' · ' + co.email : '') : (acct.owner ? acct.owner + ' · ' : '') + 'თანამშრომელი',
       hasLogo: !!co.logo, noLogo: !co.logo, coLogo: co.logo || '',
       goDebtsNav: function () { go('debts', { debtsBack: 'home' }); },
       profRows: profRows,
-      editProfile: function () { go('onboard', { ob: self.blankOb('edit', null, co), obErr: '' }); },
+      editProfile: function () { if (isOwner) go('onboard', { ob: self.blankOb('edit', null, co), obErr: '' }); },
       signOut: function () { if (self.props.api) { set({ menuOpen: false }); self.props.api.signOut(); return; } clearTimeout(self._at); self.flash({ screen: 'login', sheet: null, picker: CLOSED, authBusy: '', menuOpen: false }, { title: 'ანგარიშიდან გამოხვედით' }); },
       gBtn: { show: !self.props.api || !!(self.props.providers && self.props.providers.google), label: s.authBusy === 'google' ? 'დაკავშირება…' : 'Google-ით გაგრძელება', disabled: !!s.authBusy, go: signIn('google') },
       aBtn: { show: !self.props.api || !!(self.props.providers && self.props.providers.apple), label: s.authBusy === 'apple' ? 'დაკავშირება…' : 'Apple-ით გაგრძელება', disabled: !!s.authBusy, go: signIn('apple') },
-      emailOpen: !!s.emailOpen && !s.emailSent, emailClosed: !s.emailOpen && !s.emailSent, emailSent: !!s.emailSent,
-      emailVal: s.emailVal || '', emailBusy: !!s.emailBusy,
-      emailBtn: s.emailBusy ? 'იგზავნება…' : 'შესვლის ბმულის გაგზავნა',
-      toggleEmail: function () { set({ emailOpen: true, authErr: '' }); },
-      setEmail: function (e) { set({ emailVal: val(e), authErr: '' }); },
-      emailAgain: function () { set({ emailSent: false, emailOpen: true }); },
-      sendEmail: function () {
-        var em = String(s.emailVal || '').trim();
-        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { set({ authErr: 'მიუთითეთ სწორი ელფოსტა' }); return; }
-        if (!self.props.api) { set({ emailSent: true }); return; }
-        set({ emailBusy: true, authErr: '' });
-        self.props.api.signInEmail(em).then(function () { self.setState({ emailBusy: false, emailSent: true }); })
-          .catch(function (er) { self.setState({ emailBusy: false, authErr: (er && er.message) || 'ბმულის გაგზავნა ვერ მოხერხდა' }); });
-      },
+      noOwnerLogin: !!self.props.api && !(self.props.providers && (self.props.providers.google || self.props.providers.apple)),
+      staffEmail: s.staffEmail || '', staffPass: s.staffPass || '', staffBusy: !!s.staffBusy,
+      staffPassType: s.staffShow ? 'text' : 'password', staffEyeLabel: s.staffShow ? 'პაროლის დამალვა' : 'პაროლის ჩვენება',
+      staffBtn: s.staffBusy ? 'შესვლა…' : 'შესვლა',
+      setStaffEmail: function (e) { set({ staffEmail: val(e), authErr: '' }); },
+      setStaffPass: function (e) { set({ staffPass: val(e), authErr: '' }); },
+      toggleStaffPass: function () { set({ staffShow: !s.staffShow }); },
+      staffKey: function (e) { if (e && e.key === 'Enter') { e.preventDefault(); self.staffLogin(); } },
+      staffSubmit: function () { self.staffLogin(); },
       hasAuthErr: !!s.authErr, authErr: s.authErr || '',
       authBusyOn: !!s.authBusy, authBusyText: s.authBusy ? provLabel(s.authBusy) + ' — ავტორიზაცია მიმდინარეობს…' : '',
       ob: ob, obFormSeg: obFormSeg,
