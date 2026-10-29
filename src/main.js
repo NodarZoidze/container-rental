@@ -69,6 +69,17 @@ const api = hasSupabase ? {
   signOut: () => supabase.auth.signOut().finally(() => window.location.replace(home))
 } : null;
 
+// Which sign-in methods are enabled in Supabase (Google / Apple buttons are shown only when configured).
+async function loadProviders() {
+  try {
+    const res = await fetch(import.meta.env.VITE_SUPABASE_URL + '/auth/v1/settings', { headers: { apikey: import.meta.env.VITE_SUPABASE_ANON_KEY } });
+    const d = await res.json();
+    return d.external || { email: true };
+  } catch (e) {
+    return { email: true };
+  }
+}
+
 async function boot() {
   if (DEMO) {
     const instance = new Logic({ start: params.get('start') || 'home' });
@@ -84,7 +95,8 @@ async function boot() {
   });
 
   if (!session) {
-    const instance = new Logic({ start: 'login', api, data: { clients: [], containers: [], trips: [], payments: [], company: null, acct: {} } });
+    const providers = await loadProviders();
+    const instance = new Logic({ start: 'login', api, providers, data: { clients: [], containers: [], trips: [], payments: [], company: null, acct: {} } });
     root.render(h(App, { instance, sync: null }));
     return;
   }

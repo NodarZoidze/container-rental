@@ -2,6 +2,9 @@
 
 export const TABLES = ['clients', 'containers', 'trips', 'payments'];
 
+// Database table names (cr_ prefix = container rental; shares a Supabase project with another app).
+export const TABLE_NAME = { companies: 'cr_companies', clients: 'cr_clients', containers: 'cr_containers', trips: 'cr_trips', payments: 'cr_payments' };
+
 export const toRow = {
   clients: (c) => ({
     id: c.id, name: c.name, kind: c.kind || 'company',

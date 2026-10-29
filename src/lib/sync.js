@@ -1,7 +1,7 @@
 // Persists app state to Supabase by diffing snapshots: every change the UI makes
 // (new trip, payment, client, cancelled trip, profile, prices) is written as
 // upserts / deletes. Runs one batch at a time; on failure the change is kept for retry.
-import { TABLES, toRow, companyToRow } from './mapping.js';
+import { TABLES, TABLE_NAME, toRow, companyToRow } from './mapping.js';
 
 function index(snap, ownerId) {
   const out = { company: null, tables: {} };
@@ -22,7 +22,7 @@ function index(snap, ownerId) {
 
 async function apply(sb, base, next) {
   if (next.company && (!base.company || base.company.json !== next.company.json)) {
-    const { error } = await sb.from('companies').upsert(next.company.row, { onConflict: 'owner_id' });
+    const { error } = await sb.from(TABLE_NAME.companies).upsert(next.company.row, { onConflict: 'owner_id' });
     if (error) throw error;
   }
   for (const t of TABLES) {
@@ -32,7 +32,7 @@ async function apply(sb, base, next) {
       if (!old || old.json !== v.json) up.push(v.row);
     });
     if (up.length) {
-      const { error } = await sb.from(t).upsert(up, { onConflict: 'id' });
+      const { error } = await sb.from(TABLE_NAME[t]).upsert(up, { onConflict: 'id' });
       if (error) throw error;
     }
   }
@@ -40,7 +40,7 @@ async function apply(sb, base, next) {
     const gone = [];
     base.tables[t].forEach((v, id) => { if (!next.tables[t].has(id)) gone.push(id); });
     if (gone.length) {
-      const { error } = await sb.from(t).delete().in('id', gone);
+      const { error } = await sb.from(TABLE_NAME[t]).delete().in('id', gone);
       if (error) throw error;
     }
   }
