@@ -1,0 +1,1601 @@
+<div style="width: 100%; max-width: 480px; height: 100%; margin: 0 auto; position: relative; overflow: hidden; box-shadow: 0 0 0 1px #E2E8F0; background: #FCFCFC; color: #14141E; font-family: 'Inter', 'Noto Sans Georgian', system-ui, sans-serif; font-size: 15px; font-weight: 400; line-height: 1.45; letter-spacing: -0.005em; font-feature-settings: 'tnum' 1">
+
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 20px 16px 100px; display: flex; flex-direction: column; gap: 24px">
+  <header style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+    <div style="display: flex; flex-direction: column; gap: 1px; min-width: 0">
+      <span style="font-size: 13px; color: #6B7280">დღეს</span>
+      <span style="font-size: 17px; line-height: 1.25; font-weight: 600; letter-spacing: -0.015em; color: #020520; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ todayLabel }}</span>
+    </div>
+    <button type="button" onClick="{{ toggleMenu }}" aria-label="მენიუ" aria-haspopup="menu" aria-expanded="{{ menuOpen }}" style="flex: none; height: 48px; box-sizing: border-box; padding: 3px 13px 3px 3px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; cursor: pointer; display: flex; align-items: center; gap: 9px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px">
+      <span aria-hidden="true" style="flex: none; width: 40px; height: 40px; box-sizing: border-box; border-radius: 9999px; overflow: hidden; background: #F0F4FE; color: #145AFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600"><sc-if value="{{ hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ coLogo }}" alt="" style="width: 100%; height: 100%; object-fit: contain; background: #FFFFFF"></sc-if><sc-if value="{{ noLogo }}" hint-placeholder-val="{{ true }}"><span>{{ coInitials }}</span></sc-if></span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 2; stroke-linecap: round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+    </button>
+  </header>
+
+  <section aria-label="თვის შემოსავალი და ასაღები ვალი" style="border: 1px solid rgba(20,90,255,0.14); border-radius: 24px; padding: 8px 8px 12px; background: linear-gradient(160deg, rgba(20,90,255,0.10) 0%, rgba(182,203,253,0.40) 100%), #FFFFFF; box-shadow: rgba(20,90,255,0.1) 0px 0px 100px -28px; display: flex; flex-direction: column; gap: 6px">
+    <button type="button" onClick="{{ goIncome }}" style="appearance: none; border: 0; margin: 0; background: transparent; font: inherit; color: inherit; text-align: left; cursor: pointer; border-radius: 18px; padding: 12px 12px 8px; display: flex; flex-direction: column; gap: 4px">
+      <span style="width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 10px">
+        <span style="min-width: 0; font-size: 14px; font-weight: 500; color: #374151">{{ monthIncomeLabel }}</span>
+        <span aria-hidden="true" style="flex: none; width: 30px; height: 30px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #145AFF; display: flex; align-items: center; justify-content: center">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"><path d="m9 6 6 6-6 6"></path></svg>
+        </span>
+      </span>
+      <span style="max-width: 100%; font-size: 44px; line-height: 1.1; font-weight: 600; letter-spacing: -0.035em; color: #020520; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ monthIncome }}</span>
+      <span style="display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; font-size: 13px; color: #374151">
+        <span style="display: flex; align-items: center; gap: 6px; white-space: nowrap"><span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 9999px; background: #145AFF"></span><span>გადარიცხვით {{ monthBank }}</span></span>
+        <span style="display: flex; align-items: center; gap: 6px; white-space: nowrap"><span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 9999px; background: #A9C1FF"></span><span>ნაღდით {{ monthCash }}</span></span>
+      </span>
+    </button>
+    <button type="button" onClick="{{ goDebts }}" style="appearance: none; margin: 0 4px; font: inherit; color: inherit; text-align: left; cursor: pointer; box-sizing: border-box; min-height: 60px; padding: 10px 12px 10px 14px; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; display: flex; align-items: center; gap: 10px">
+      <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: #374151; white-space: nowrap"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: #FFA64D"></span><span>ასაღები ვალი</span></span>
+        <span style="font-size: 12px; color: #6B7280">{{ heroSub }}</span>
+      </span>
+      <span style="flex: none; font-size: 19px; font-weight: 600; letter-spacing: -0.025em; color: #C25E0A; white-space: nowrap">{{ totalOut }}</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #6B7280; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="m9 6 6 6-6 6"></path></svg>
+    </button>
+    <button type="button" onClick="{{ openPayAny }}" style="margin: 4px 4px 0; min-height: 48px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px; display: flex; align-items: center; justify-content: center; gap: 8px">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+      <span>ჩარიცხვის ასახვა</span>
+    </button>
+  </section>
+
+  <section aria-label="სტატისტიკა" style="display: flex; flex-direction: column; gap: 10px">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: #020520">სტატისტიკა</h2>
+      <div style="flex: none; width: 204px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 3px; background: #F1F5F9; border-radius: 9999px">
+        <sc-for list="{{ periodSeg }}" as="ps" hint-placeholder-count="3">
+          <button type="button" onClick="{{ ps.pick }}" aria-pressed="{{ ps.pressed }}" style="min-height: 40px; border: 0; border-radius: 9999px; background: {{ ps.bg }}; color: {{ ps.fg }}; box-shadow: {{ ps.shadow }}; font: inherit; font-size: 14px; font-weight: {{ ps.weight }}; cursor: pointer">{{ ps.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+      <span style="font-size: 14px; font-weight: 600; color: #020520">{{ statHeading }}</span>
+      <div style="display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr) minmax(0, 1fr); gap: 10px">
+        <sc-for list="{{ statTiles }}" as="st" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+            <span style="display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden">
+              <span aria-hidden="true" style="flex: none; width: {{ st.dotW }}; height: 6px; border-radius: 9999px; background: {{ st.dot }}"></span>
+              <span style="overflow: hidden; text-overflow: ellipsis">{{ st.label }}</span>
+            </span>
+            <span style="font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: -0.03em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: {{ st.color }}">{{ st.value }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <span style="font-size: 13px; color: #374151">{{ statTypes }}</span>
+      <div style="display: flex; flex-direction: column; gap: 12px; padding-top: 14px; border-top: 1px solid #E2E8F0">
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 3px; background: #F1F5F9; border-radius: 9999px">
+          <sc-for list="{{ seriesSeg }}" as="se" hint-placeholder-count="3">
+            <button type="button" onClick="{{ se.pick }}" aria-pressed="{{ se.pressed }}" style="min-width: 0; min-height: 40px; padding: 2px 6px; border: 0; border-radius: 9999px; background: {{ se.bg }}; color: {{ se.fg }}; box-shadow: {{ se.shadow }}; font: inherit; font-family: 'Noto Sans Georgian', sans-serif; font-size: 12.5px; line-height: 1.2; font-weight: {{ se.weight }}; font-stretch: 87.5%; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; text-align: center">
+              <span aria-hidden="true" style="flex: none; display: flex; gap: 3px">
+                <sc-for list="{{ se.dots }}" as="dt" hint-placeholder-count="1">
+                  <span style="width: 7px; height: 7px; border-radius: 9999px; background: {{ dt.c }}"></span>
+                </sc-for>
+              </span>
+              <span style="min-width: 0">{{ se.label }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="display: flex; gap: 4px">
+          <sc-for list="{{ bars }}" as="b" hint-placeholder-count="8">
+            <button type="button" onClick="{{ b.pick }}" aria-pressed="{{ b.pressed }}" aria-label="{{ b.aria }}" style="flex: 1 1 0; min-width: 0; appearance: none; border: 0; margin: 0; padding: 8px 0 6px; border-radius: 8px; background: {{ b.bg }}; font: inherit; color: #14141E; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px">
+              <span style="height: 104px; width: 100%; display: flex; align-items: flex-end; justify-content: center; gap: 3px">
+                <span style="width: {{ b.wR }}; height: {{ b.hR }}; background: #145AFF; border-radius: 4px 4px 0 0"></span>
+                <span style="width: {{ b.wD }}; height: {{ b.hD }}; background: #FFA64D; border-radius: 4px 4px 0 0"></span>
+              </span>
+              <span style="max-width: 100%; font-size: 11px; font-weight: {{ b.fw }}; color: {{ b.lc }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ b.label }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: #020520">თავისუფალი კონტეინერები</h2>
+      <button type="button" onClick="{{ goContainers }}" style="flex: none; appearance: none; border: 0; background: none; margin: 0; font: inherit; cursor: pointer; min-height: 44px; padding: 0 2px; color: #145AFF; font-size: 14px; font-weight: 500">ყველა</button>
+    </div>
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; display: flex; flex-direction: column; overflow: hidden">
+      <sc-for list="{{ volStats }}" as="v" hint-placeholder-count="5">
+        <button type="button" onClick="{{ v.open }}" style="appearance: none; background: none; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 0; border-top: {{ v.border }}; padding: 10px 16px; min-height: 52px; display: flex; align-items: center; gap: 12px">
+          <span style="flex: none; width: 56px; font-size: 15px; font-weight: 600; color: #020520; white-space: nowrap">{{ v.label }}</span>
+          <span aria-hidden="true" style="flex: 1 1 auto; min-width: 0; height: 6px; border-radius: 9999px; background: #F1F5F9; display: flex; overflow: hidden">
+            <span style="height: 100%; border-radius: 9999px; background: #145AFF; width: {{ v.freeW }}"></span>
+          </span>
+          <span style="flex: none; min-width: 60px; display: flex; justify-content: flex-end; align-items: baseline; gap: 4px; white-space: nowrap">
+            <span style="font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: {{ v.freeColor }}">{{ v.free }}</span>
+            <span style="font-size: 13px; color: #6B7280">{{ v.total }}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: #020520">ბოლო რეისები</h2>
+      <button type="button" onClick="{{ goTrips }}" style="flex: none; appearance: none; border: 0; background: none; margin: 0; font: inherit; cursor: pointer; min-height: 44px; padding: 0 2px; color: #145AFF; font-size: 14px; font-weight: 500">ყველა რეისი</button>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <sc-for list="{{ recent }}" as="t" hint-placeholder-count="3">
+        <button type="button" onClick="{{ t.open }}" style="appearance: none; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 1px solid {{ t.cardLine }}; border-radius: 16px; background: {{ t.cardBg }}; box-shadow: rgba(0,0,0,0.06) 0px 0px 4px -2px; padding: 12px 14px 12px 12px; min-height: 72px; display: flex; align-items: center; gap: 12px">
+          <span style="position: relative; flex: none; width: 48px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Roboto Mono', 'Noto Sans Georgian', monospace; font-size: 13px; font-weight: 500; letter-spacing: -0.03em; white-space: nowrap; color: {{ t.badgeFg }}; background: {{ t.badgeBg }}">{{ t.vol }}<sc-if value="{{ t.active }}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="ობიექტზეა" style="position: absolute; top: -5px; right: -5px; width: 14px; height: 14px; box-sizing: border-box; border-radius: 9999px; background: #FFA64D; border: 2px solid #FFFFFF"></span></sc-if></span>
+          <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+            <span style="display: flex; align-items: baseline; gap: 6px; min-width: 0; white-space: nowrap; overflow: hidden">
+              <span style="flex: none; font-size: 15px; font-weight: 600; color: {{ t.typeFg }}">{{ t.typeLabel }}</span>
+              <span style="min-width: 0; overflow: hidden; text-overflow: ellipsis; font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: -0.03em; color: #6B7280">{{ t.code }}</span>
+            </span>
+            <span style="font-size: 13px; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ t.l2 }}</span>
+            <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ t.l3 }}</span>
+          </span>
+          <span style="flex: none; max-width: 124px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px">
+            <span style="font-size: 15px; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ t.amount }}</span>
+            <span style="max-width: 100%; display: flex; align-items: center; gap: 5px; font-family: 'Noto Sans Georgian', sans-serif; font-size: 11.5px; font-weight: 500; font-stretch: 87.5%; color: #374151; white-space: nowrap; overflow: hidden">
+              <sc-if value="{{ t.hasPill }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: {{ t.dot }}"></span></sc-if>
+              <span style="overflow: hidden; text-overflow: ellipsis">{{ t.pill }}</span>
+            </span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isTrips }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 20px 16px 100px; display: flex; flex-direction: column; gap: 14px">
+  <header style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+    <h1 style="margin: 0; min-width: 0; font-size: 26px; line-height: 1.2; font-weight: 600; letter-spacing: -0.025em; color: #020520">რეისები</h1>
+    <span style="flex: none; font-size: 13px; color: #6B7280">{{ tripsTotalLabel }}</span>
+  </header>
+  <div style="position: relative">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="position: absolute; left: 15px; top: 16px; color: #6B7280; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+    <input type="search" value="{{ query }}" onChange="{{ setQuery }}" placeholder="კონტეინერი, კლიენტი ან მისამართი" aria-label="ძებნა რეისებში" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px 0 42px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+  </div>
+  <div style="display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px">
+    <sc-for list="{{ filters }}" as="fl" hint-placeholder-count="4">
+      <button type="button" onClick="{{ fl.pick }}" aria-pressed="{{ fl.pressed }}" style="flex: none; min-height: 40px; padding: 0 14px; border-radius: 9999px; border: 1px solid {{ fl.border }}; background: {{ fl.bg }}; color: {{ fl.fg }}; font: inherit; font-size: 14px; font-weight: {{ fl.weight }}; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap">
+        <span>{{ fl.label }}</span>
+        <span style="color: {{ fl.cc }}">{{ fl.count }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <p style="margin: -4px 0 0; display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6B7280">
+    <span aria-hidden="true" style="flex: none; width: 12px; height: 12px; box-sizing: border-box; border-radius: 9999px; background: #FFA64D; border: 2px solid #FFFFFF; box-shadow: 0 0 0 1px #FFA64D"></span>
+    <span style="min-width: 0">კონტეინერი ობიექტზეა — შეეხეთ რეისს გატანისთვის ან შეცვლისთვის</span>
+  </p>
+  <sc-for list="{{ tripGroups }}" as="g" hint-placeholder-count="3">
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 6px 4px 0">
+        <h2 style="margin: 0; min-width: 0; font-size: 13px; font-weight: 500; color: #6B7280">{{ g.label }}</h2>
+        <span style="flex: none; font-size: 13px; font-weight: 600; letter-spacing: -0.01em; color: #374151">{{ g.sum }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <sc-for list="{{ g.items }}" as="t" hint-placeholder-count="2">
+          <button type="button" onClick="{{ t.open }}" style="appearance: none; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 1px solid {{ t.cardLine }}; border-radius: 16px; background: {{ t.cardBg }}; box-shadow: rgba(0,0,0,0.06) 0px 0px 4px -2px; padding: 12px 14px 12px 12px; min-height: 72px; display: flex; align-items: center; gap: 12px">
+            <span style="position: relative; flex: none; width: 48px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Roboto Mono', 'Noto Sans Georgian', monospace; font-size: 13px; font-weight: 500; letter-spacing: -0.03em; white-space: nowrap; color: {{ t.badgeFg }}; background: {{ t.badgeBg }}">{{ t.vol }}<sc-if value="{{ t.active }}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="ობიექტზეა" style="position: absolute; top: -5px; right: -5px; width: 14px; height: 14px; box-sizing: border-box; border-radius: 9999px; background: #FFA64D; border: 2px solid #FFFFFF"></span></sc-if></span>
+            <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+              <span style="display: flex; align-items: baseline; gap: 6px; min-width: 0; white-space: nowrap; overflow: hidden">
+                <span style="flex: none; font-size: 15px; font-weight: 600; color: {{ t.typeFg }}">{{ t.typeLabel }}</span>
+                <span style="min-width: 0; overflow: hidden; text-overflow: ellipsis; font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: -0.03em; color: #6B7280">{{ t.code }}</span>
+              </span>
+              <span style="font-size: 13px; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ t.l2 }}</span>
+              <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ t.l3 }}</span>
+            </span>
+            <span style="flex: none; max-width: 124px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px">
+              <span style="font-size: 15px; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ t.amount }}</span>
+              <span style="max-width: 100%; display: flex; align-items: center; gap: 5px; font-family: 'Noto Sans Georgian', sans-serif; font-size: 11.5px; font-weight: 500; font-stretch: 87.5%; color: #374151; white-space: nowrap; overflow: hidden">
+                <sc-if value="{{ t.hasPill }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: {{ t.dot }}"></span></sc-if>
+                <span style="overflow: hidden; text-overflow: ellipsis">{{ t.pill }}</span>
+              </span>
+            </span>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+  </sc-for>
+  <sc-if value="{{ noTrips }}" hint-placeholder-val="{{ false }}">
+    <p style="margin: 24px 0 0; text-align: center; font-size: 14px; color: #6B7280">ამ ფილტრით რეისი ვერ მოიძებნა.</p>
+  </sc-if>
+  <sc-if value="{{ hasMoreTrips }}" hint-placeholder-val="{{ false }}">
+    <button type="button" onClick="{{ moreTrips }}" style="min-height: 48px; padding: 0 24px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">{{ moreLabel }}</button>
+  </sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isNew }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 100px; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 12px 16px 28px; display: flex; flex-direction: column; gap: 22px">
+  <header style="display: flex; align-items: center; gap: 10px">
+    <button type="button" onClick="{{ cancelNew }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+    </button>
+    <h1 style="margin: 0; min-width: 0; font-size: 24px; line-height: 1.2; font-weight: 600; letter-spacing: -0.025em; color: #020520">ახალი რეისი</h1>
+  </header>
+
+  <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+    <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">რეისის ტიპი</legend>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 9999px; background: #F1F5F9">
+      <sc-for list="{{ typeSeg }}" as="ty" hint-placeholder-count="3">
+        <button type="button" onClick="{{ ty.pick }}" aria-pressed="{{ ty.pressed }}" style="min-height: 44px; border: 0; border-radius: 9999px; background: {{ ty.bg }}; color: {{ ty.fg }}; box-shadow: {{ ty.shadow }}; font: inherit; font-size: 15px; font-weight: {{ ty.weight }}; cursor: pointer">{{ ty.label }}</button>
+      </sc-for>
+    </div>
+    <p style="margin: 10px 0 0; font-size: 13px; color: #6B7280">{{ typeHint }}</p>
+  </fieldset>
+
+  <sc-if value="{{ isDeliver }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span id="cp-form-label" style="font-size: 13px; font-weight: 500; color: #374151">კლიენტი</span>
+        <button type="button" onClick="{{ cpForm.toggle }}" aria-expanded="{{ cpForm.open }}" aria-labelledby="cp-form-label" style="box-sizing: border-box; width: 100%; min-height: 56px; padding: 6px 14px 6px 15px; border: 1px solid {{ cpForm.border }}; border-radius: 12px; background: #FFFFFF; font: inherit; color: #14141E; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left">
+          <span style="flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0">
+            <span style="font-size: 16px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: {{ cpForm.labelColor }}">{{ cpForm.label }}</span>
+            <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ cpForm.sub }}</span>
+          </span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="{{ cpForm.chevron }}"></path></svg>
+        </button>
+        <sc-if value="{{ cpForm.open }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; overflow: hidden; box-shadow: rgba(0,0,0,0.08) 0px 0.36px 1.8px -1.4px, rgba(0,0,0,0.07) 0px 1.37px 6.87px -2.8px, rgba(0,0,0,0.016) 0px 6px 30px -4.25px">
+            <div style="padding: 8px; border-bottom: 1px solid #E2E8F0">
+              <input type="search" value="{{ cpForm.query }}" onChange="{{ cpForm.setQuery }}" placeholder="ძებნა: სახელი, კოდი, ტელეფონი" aria-label="კლიენტის ძებნა" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 44px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 12px; background: #F1F5F9; font: inherit; font-size: 16px; color: #14141E">
+            </div>
+            <div style="max-height: 256px; overflow-y: auto; display: flex; flex-direction: column">
+              <sc-for list="{{ cpForm.items }}" as="it" hint-placeholder-count="5">
+                <button type="button" onClick="{{ it.pick }}" aria-pressed="{{ it.on }}" style="appearance: none; margin: 0; font: inherit; color: #14141E; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 0; border-top: {{ it.border }}; background: {{ it.bg }}; padding: 8px 15px; min-height: 54px; display: flex; align-items: center; gap: 10px">
+                  <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column">
+                    <span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ it.name }}</span>
+                    <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ it.sub }}</span>
+                  </span>
+                  <sc-if value="{{ it.on }}" hint-placeholder-val="{{ false }}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #145AFF; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg>
+                  </sc-if>
+                </button>
+              </sc-for>
+              <sc-if value="{{ cpForm.empty }}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 0; padding: 14px 15px; font-size: 14px; color: #6B7280">კლიენტი ვერ მოიძებნა.</p>
+              </sc-if>
+              <sc-if value="{{ cpForm.hasMore }}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 0; padding: 10px 15px; font-size: 12px; color: #6B7280; border-top: 1px solid #E2E8F0">{{ cpForm.moreNote }}</p>
+              </sc-if>
+            </div>
+            <div style="padding: 8px; border-top: 1px solid #E2E8F0">
+              <button type="button" onClick="{{ addClientFromForm }}" style="width: 100%; min-height: 44px; padding: 0 16px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2.2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+                <span>ახალი კლიენტი</span>
+              </button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+      <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+        <span>ობიექტის მისამართი</span>
+        <input type="text" value="{{ form.address }}" onChange="{{ f.address }}" placeholder="ქუჩა, ნომერი" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; font-weight: 400; color: #14141E">
+      </label>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isPlaceType }}" hint-placeholder-val="{{ false }}">
+    <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+      <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">{{ placeLegend }}</legend>
+      <div style="position: relative; margin-bottom: 10px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="position: absolute; left: 14px; top: 14px; color: #6B7280; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+        <input type="search" value="{{ placeQ }}" onChange="{{ setPlaceQ }}" placeholder="კოდი, კლიენტი ან მისამართი" aria-label="ობიექტზე მდგარი კონტეინერის ძებნა" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 46px; padding: 0 15px 0 40px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+      </div>
+      <div style="max-height: 320px; overflow-y: auto; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; display: flex; flex-direction: column">
+        <sc-for list="{{ placeRows }}" as="pr" hint-placeholder-count="4">
+          <button type="button" onClick="{{ pr.pick }}" aria-pressed="{{ pr.pressed }}" style="appearance: none; margin: 0; font: inherit; color: #14141E; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 0; border-top: {{ pr.border }}; background: {{ pr.bg }}; padding: 10px 14px; min-height: 64px; display: flex; align-items: center; gap: 12px">
+            <span style="flex: none; width: 48px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Roboto Mono', 'Noto Sans Georgian', monospace; font-size: 13px; font-weight: 500; letter-spacing: -0.03em; white-space: nowrap; background: #F1F5F9; color: #14141E">{{ pr.vol }}</span>
+            <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+              <span style="display: flex; align-items: baseline; gap: 8px; white-space: nowrap; min-width: 0; overflow: hidden">
+                <span style="flex: none; font-family: 'Roboto Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: -0.03em; color: #020520">{{ pr.code }}</span>
+                <span style="min-width: 0; font-size: 14px; font-weight: 500; overflow: hidden; text-overflow: ellipsis">{{ pr.client }}</span>
+              </span>
+              <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ pr.sub }}</span>
+            </span>
+            <span aria-hidden="true" style="flex: none; width: 22px; height: 22px; border-radius: 9999px; box-sizing: border-box; border: 2px solid {{ pr.ring }}; background: {{ pr.dot }}; box-shadow: inset 0 0 0 3px #FFFFFF"></span>
+          </button>
+        </sc-for>
+        <sc-if value="{{ noPlaces }}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; padding: 14px 15px; font-size: 13px; color: #6B7280">{{ noPlacesText }}</p>
+        </sc-if>
+      </div>
+    </fieldset>
+  </sc-if>
+
+  <sc-if value="{{ needsNewCont }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 20px">
+      <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+        <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">{{ volLegend }}</legend>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{ volChips }}" as="v" hint-placeholder-count="5">
+            <button type="button" onClick="{{ v.pick }}" aria-pressed="{{ v.pressed }}" disabled="{{ v.disabled }}" style="min-height: 54px; min-width: 88px; padding: 6px 14px; border-radius: 16px; border: 1px solid {{ v.border }}; background: {{ v.bg }}; color: {{ v.fg }}; font: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0">
+              <span style="font-size: 16px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap">{{ v.label }}</span>
+              <span style="font-size: 11.5px; font-weight: 400; white-space: nowrap; color: {{ v.sc }}">{{ v.sub }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </fieldset>
+      <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+        <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">{{ contLegend }}</legend>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{ freeChips }}" as="fc" hint-placeholder-count="4">
+            <button type="button" onClick="{{ fc.pick }}" aria-pressed="{{ fc.pressed }}" style="min-height: 40px; padding: 0 14px; border-radius: 9999px; border: 1px solid {{ fc.border }}; background: {{ fc.bg }}; color: {{ fc.fg }}; font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: 500; letter-spacing: -0.03em; cursor: pointer; white-space: nowrap">{{ fc.code }}</button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ noFree }}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; font-size: 13px; font-weight: 500; color: #C2362A">ამ მოცულობის თავისუფალი კონტეინერი არ არის — აირჩიეთ სხვა მოცულობა.</p>
+        </sc-if>
+      </fieldset>
+    </div>
+  </sc-if>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+      <span>თარიღი</span>
+      <input type="date" value="{{ form.date }}" onChange="{{ f.date }}" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 12px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+    </label>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+      <span>მძღოლი</span>
+      <input type="text" value="{{ form.driver }}" onChange="{{ f.driver }}" placeholder="სახელი" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+    </label>
+  </div>
+
+  <sc-if value="{{ hasPrice }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 18px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+          <span>რეისის ფასი, ₾</span>
+          <input type="text" inputmode="decimal" value="{{ priceVal }}" onChange="{{ f.price }}" placeholder="0" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 54px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: #020520">
+        </label>
+        <sc-if value="{{ hasPriceHint }}" hint-placeholder-val="{{ true }}">
+          <p style="margin: 0; font-size: 13px; color: #6B7280">{{ priceHint }}</p>
+        </sc-if>
+        <sc-if value="{{ priceReset.show }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ priceReset.go }}" style="align-self: flex-start; appearance: none; border: 0; background: none; margin: 0; padding: 0 2px; font: inherit; cursor: pointer; min-height: 44px; text-align: left; color: #145AFF; font-size: 14px; font-weight: 500">{{ priceReset.text }}</button>
+        </sc-if>
+      </div>
+      <label style="display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 8px 15px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font-size: 15px; font-weight: 500; color: #14141E; cursor: pointer">
+        <input type="checkbox" checked="{{ form.paidNow }}" onChange="{{ f.paidNow }}" style="flex: none; width: 20px; height: 20px; margin: 0; accent-color: #145AFF">
+        <span style="display: flex; flex-direction: column; min-width: 0">
+          <span>ადგილზე გადაიხადა</span>
+          <span style="font-size: 12px; font-weight: 400; color: #6B7280">ნაღდი ფულით — რეისი მაშინვე გადახდილად ჩაიწერება</span>
+        </span>
+      </label>
+    </div>
+  </sc-if>
+</div>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; box-sizing: border-box; padding: 12px 16px 20px; background: rgba(252,252,252,0.96); border-top: 1px solid #E2E8F0; display: flex; flex-direction: column; gap: 8px">
+  <sc-if value="{{ hasFormErr }}" hint-placeholder-val="{{ false }}">
+    <span role="alert" style="font-size: 13px; font-weight: 500; color: #C2362A">{{ formErr }}</span>
+  </sc-if>
+  <div style="display: flex; align-items: center; gap: 14px">
+    <sc-if value="{{ hasPrice }}" hint-placeholder-val="{{ true }}">
+      <div style="flex: none; display: flex; flex-direction: column">
+        <span style="font-size: 12px; color: #6B7280">ფასი</span>
+        <span style="font-size: 22px; line-height: 1.2; font-weight: 600; letter-spacing: -0.03em; color: #020520; white-space: nowrap">{{ formTotal }}</span>
+      </div>
+    </sc-if>
+    <button type="button" onClick="{{ saveTrip }}" style="flex: 1 1 auto; min-height: 52px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">{{ saveLabel }}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isContainers }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 20px 16px 100px; display: flex; flex-direction: column; gap: 16px">
+  <header style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+    <h1 style="margin: 0; min-width: 0; font-size: 26px; line-height: 1.2; font-weight: 600; letter-spacing: -0.025em; color: #020520">კონტეინერები</h1>
+    <button type="button" onClick="{{ openReg }}" style="flex: none; min-height: 44px; padding: 0 14px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2.2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+      <span>რეგისტრაცია</span>
+    </button>
+  </header>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px">
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0">
+      <span style="font-size: 12px; color: #6B7280">სულ</span>
+      <span style="font-size: 24px; line-height: 1.15; font-weight: 600; letter-spacing: -0.03em; color: #020520">{{ cTotal }}</span>
+    </div>
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0">
+      <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #6B7280; white-space: nowrap"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: #16CA2E"></span><span>თავისუფალი</span></span>
+      <span style="font-size: 24px; line-height: 1.15; font-weight: 600; letter-spacing: -0.03em; color: #145AFF">{{ cFree }}</span>
+    </div>
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; min-width: 0">
+      <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #6B7280; white-space: nowrap"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: #FFA64D"></span><span>ობიექტზე</span></span>
+      <span style="font-size: 24px; line-height: 1.15; font-weight: 600; letter-spacing: -0.03em; color: #020520">{{ cBusy }}</span>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+    <sc-for list="{{ volCards }}" as="v" hint-placeholder-count="4">
+      <button type="button" onClick="{{ v.pick }}" aria-pressed="{{ v.pressed }}" style="appearance: none; margin: 0; text-align: left; padding: 14px; border-radius: 16px; border: 1px solid {{ v.border }}; background: {{ v.bg }}; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; font: inherit; color: #14141E; cursor: pointer; display: flex; flex-direction: column; gap: 10px; min-width: 0; min-height: 100px">
+        <span style="width: 100%; display: flex; justify-content: space-between; align-items: baseline; gap: 8px">
+          <span style="font-size: 20px; line-height: 1.2; font-weight: 600; letter-spacing: -0.03em; color: #020520; white-space: nowrap">{{ v.label }}</span>
+          <span style="flex: none; font-size: 12px; color: #6B7280">სულ {{ v.total }}</span>
+        </span>
+        <span aria-hidden="true" style="width: 100%; height: 6px; border-radius: 9999px; background: #E2E8F0; display: flex; overflow: hidden">
+          <span style="height: 100%; border-radius: 9999px; background: #145AFF; width: {{ v.freeW }}"></span>
+        </span>
+        <span style="display: flex; flex-direction: column; font-size: 13px">
+          <span style="font-weight: 500; color: {{ v.freeColor }}">{{ v.freeText }}</span>
+          <span style="color: #6B7280">{{ v.busyText }}</span>
+        </span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px">
+    <sc-for list="{{ contChips }}" as="fl" hint-placeholder-count="3">
+      <button type="button" onClick="{{ fl.pick }}" aria-pressed="{{ fl.pressed }}" style="flex: none; min-height: 40px; padding: 0 14px; border-radius: 9999px; border: 1px solid {{ fl.border }}; background: {{ fl.bg }}; color: {{ fl.fg }}; font: inherit; font-size: 14px; font-weight: {{ fl.weight }}; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap">
+        <span>{{ fl.label }}</span>
+        <span style="color: {{ fl.cc }}">{{ fl.count }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+    <h2 style="margin: 0; min-width: 0; font-size: 13px; font-weight: 500; color: #6B7280">{{ contListTitle }}</h2>
+    <sc-if value="{{ hasVolFilter }}" hint-placeholder-val="{{ false }}">
+      <button type="button" onClick="{{ clearVol }}" style="flex: none; appearance: none; border: 0; background: none; margin: 0; padding: 0 2px; font: inherit; cursor: pointer; min-height: 44px; color: #145AFF; font-size: 13px; font-weight: 500">ყველა მოცულობა</button>
+    </sc-if>
+  </div>
+  <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; display: flex; flex-direction: column; overflow: hidden">
+    <sc-for list="{{ contRows }}" as="c" hint-placeholder-count="6">
+      <button type="button" onClick="{{ c.open }}" style="appearance: none; background: none; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 0; border-top: {{ c.border }}; padding: 10px 14px; min-height: 62px; display: flex; align-items: center; gap: 12px">
+        <span style="flex: none; width: 48px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Roboto Mono', 'Noto Sans Georgian', monospace; font-size: 13px; font-weight: 500; letter-spacing: -0.03em; white-space: nowrap; background: #F1F5F9; color: #14141E">{{ c.vol }}</span>
+        <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+          <span style="font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: 500; letter-spacing: -0.03em; color: #020520">{{ c.code }}</span>
+          <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ c.sub }}</span>
+        </span>
+        <span style="flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px">
+          <span style="display: flex; align-items: center; gap: 5px; font-family: 'Noto Sans Georgian', sans-serif; font-size: 11.5px; font-weight: 500; font-stretch: 87.5%; color: #374151; white-space: nowrap">
+            <span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: {{ c.dot }}"></span>
+            <span>{{ c.pill }}</span>
+          </span>
+          <span style="font-size: 12px; color: #6B7280; white-space: nowrap">{{ c.days }}</span>
+        </span>
+      </button>
+    </sc-for>
+  </div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isClients }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 20px 16px 100px; display: flex; flex-direction: column; gap: 16px">
+  <header style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+    <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+      <h1 style="margin: 0; font-size: 26px; line-height: 1.2; font-weight: 600; letter-spacing: -0.025em; color: #020520">კლიენტები</h1>
+      <span style="font-size: 13px; color: #6B7280">{{ clientsCountLabel }}</span>
+    </div>
+    <button type="button" onClick="{{ openNewClient }}" style="flex: none; min-height: 44px; padding: 0 14px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2.2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+      <span>ახალი კლიენტი</span>
+    </button>
+  </header>
+  <section aria-label="ჯამი" style="border: 1px solid rgba(20,90,255,0.14); border-radius: 24px; padding: 8px 8px 12px; background: linear-gradient(160deg, rgba(20,90,255,0.10) 0%, rgba(182,203,253,0.40) 100%), #FFFFFF; box-shadow: rgba(20,90,255,0.1) 0px 0px 100px -28px; display: flex; flex-direction: column; gap: 4px">
+    <button type="button" onClick="{{ goDebtsFromClients }}" style="appearance: none; border: 0; margin: 0; background: transparent; font: inherit; color: inherit; text-align: left; cursor: pointer; border-radius: 18px; padding: 10px 12px 6px; display: flex; align-items: center; gap: 10px">
+      <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-size: 14px; font-weight: 500; color: #374151">სულ ჩასარიცხი</span>
+        <span style="font-size: 38px; line-height: 1.1; font-weight: 600; letter-spacing: -0.035em; color: #020520; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ totalOut }}</span>
+        <span style="font-size: 13px; color: #374151">{{ heroSub }}</span>
+      </span>
+      <span aria-hidden="true" style="flex: none; width: 32px; height: 32px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #145AFF; display: flex; align-items: center; justify-content: center">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"><path d="m9 6 6 6-6 6"></path></svg>
+      </span>
+    </button>
+    <button type="button" onClick="{{ openPayAny }}" style="margin: 6px 4px 0; min-height: 46px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">ჩარიცხვის ასახვა</button>
+  </section>
+  <div style="position: relative">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="position: absolute; left: 15px; top: 16px; color: #6B7280; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+    <input type="search" value="{{ clientQ }}" onChange="{{ setClientQ }}" placeholder="სახელი, კოდი, ტელეფონი ან მისამართი" aria-label="კლიენტის ძებნა" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px 0 42px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+  </div>
+  <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; display: flex; flex-direction: column; overflow: hidden">
+    <sc-for list="{{ clientRows }}" as="c" hint-placeholder-count="6">
+      <button type="button" onClick="{{ c.open }}" style="appearance: none; background: none; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 0; border-top: {{ c.border }}; padding: 12px 12px 12px 14px; min-height: 72px; display: flex; align-items: center; gap: 12px">
+        <span aria-hidden="true" style="flex: none; width: 40px; height: 40px; border-radius: 9999px; background: #F0F4FE; color: #145AFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">{{ c.initials }}</span>
+        <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+          <span style="font-size: 15px; font-weight: 500; color: #14141E">{{ c.name }}</span>
+          <span style="font-size: 12px; color: #6B7280">{{ c.sub }}</span>
+          <span style="font-size: 12px; color: #6B7280">{{ c.sub2 }}</span>
+        </span>
+        <span style="flex: none; font-size: 15px; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; color: {{ c.amtColor }}">{{ c.amount }}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #6B7280; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="m9 6 6 6-6 6"></path></svg>
+      </button>
+    </sc-for>
+    <sc-if value="{{ noClients }}" hint-placeholder-val="{{ false }}">
+      <p style="margin: 0; padding: 18px 16px; font-size: 14px; color: #6B7280">კლიენტი ვერ მოიძებნა.</p>
+    </sc-if>
+  </div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isDebts }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 20px 16px 100px; display: flex; flex-direction: column; gap: 16px">
+  <header style="display: flex; flex-direction: column; gap: 2px">
+    <h1 style="margin: 0; font-size: 26px; line-height: 1.2; font-weight: 600; letter-spacing: -0.025em; color: #020520">ასაღები ვალები</h1>
+    <span style="font-size: 13px; color: #6B7280">კლიენტები, რომლებსაც თანხა აქვთ ჩასარიცხი</span>
+  </header>
+  <section aria-label="სულ ასაღები" style="border: 1px solid rgba(20,90,255,0.14); border-radius: 24px; padding: 18px 20px; background: linear-gradient(160deg, rgba(20,90,255,0.10) 0%, rgba(182,203,253,0.40) 100%), #FFFFFF; box-shadow: rgba(20,90,255,0.1) 0px 0px 100px -28px; display: flex; flex-direction: column; gap: 4px">
+    <span style="font-size: 14px; font-weight: 500; color: #374151">სულ ასაღები</span>
+    <span style="font-size: 38px; line-height: 1.1; font-weight: 600; letter-spacing: -0.035em; color: #020520; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ totalOut }}</span>
+    <span style="font-size: 13px; color: #374151">{{ heroSub }}</span>
+    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(20,90,255,0.16); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #374151; white-space: nowrap; overflow: hidden"><span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 9999px; background: #F26052"></span><span style="overflow: hidden; text-overflow: ellipsis">ვადაგადაცილებული</span></span>
+        <span style="font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ debtOverdue }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #374151; white-space: nowrap"><span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 9999px; background: #FFA64D"></span><span>ვადაში</span></span>
+        <span style="font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ debtCurrent }}</span>
+      </div>
+    </div>
+    <button type="button" onClick="{{ openPayAny }}" style="margin-top: 12px; min-height: 46px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">ჩარიცხვის ასახვა</button>
+  </section>
+  <div style="position: relative">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="position: absolute; left: 15px; top: 16px; color: #6B7280; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4.5 4.5"></path></svg>
+    <input type="search" value="{{ debtQ }}" onChange="{{ setDebtQ }}" placeholder="კლიენტის ძებნა" aria-label="ძებნა ასაღებ ვალებში" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px 0 42px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+  </div>
+  <div style="display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px">
+    <sc-for list="{{ debtFilters }}" as="fl" hint-placeholder-count="2">
+      <button type="button" onClick="{{ fl.pick }}" aria-pressed="{{ fl.pressed }}" style="flex: none; min-height: 40px; padding: 0 14px; border-radius: 9999px; border: 1px solid {{ fl.border }}; background: {{ fl.bg }}; color: {{ fl.fg }}; font: inherit; font-size: 14px; font-weight: {{ fl.weight }}; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap">
+        <span>{{ fl.label }}</span>
+        <span style="color: {{ fl.cc }}">{{ fl.count }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+    <h2 style="margin: 0; min-width: 0; font-size: 13px; font-weight: 500; color: #6B7280">{{ debtCountLabel }}</h2>
+    <button type="button" onClick="{{ toggleDebtSort }}" style="flex: none; appearance: none; border: 0; background: none; margin: 0; padding: 0 2px; font: inherit; cursor: pointer; min-height: 44px; color: #145AFF; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; white-space: nowrap">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M7 4v16M3.5 16.5 7 20l3.5-3.5"></path><path d="M14 6h7M14 11h5M14 16h3"></path></svg>
+      <span>{{ debtSortLabel }}</span>
+    </button>
+  </div>
+  <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; display: flex; flex-direction: column; overflow: hidden">
+    <sc-for list="{{ debtRows }}" as="d" hint-placeholder-count="5">
+      <button type="button" onClick="{{ d.open }}" style="appearance: none; background: none; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 0; border-top: {{ d.border }}; padding: 14px 14px 14px; display: flex; align-items: flex-start; gap: 12px">
+        <span aria-hidden="true" style="flex: none; width: 40px; height: 40px; border-radius: 9999px; background: #F0F4FE; color: #145AFF; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600">{{ d.initials }}</span>
+        <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px">
+          <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 10px">
+            <span style="min-width: 0; font-size: 15px; font-weight: 500; color: #14141E">{{ d.name }}</span>
+            <span style="flex: none; font-size: 15px; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ d.amount }}</span>
+          </span>
+          <span style="font-size: 12px; color: #6B7280">{{ d.sub }}</span>
+          <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: #374151">
+            <span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: {{ d.dot }}"></span>
+            <span style="min-width: 0">{{ d.status }}</span>
+          </span>
+          <span aria-hidden="true" style="margin-top: 5px; width: 100%; height: 6px; border-radius: 9999px; background: #F1F5F9; display: flex; overflow: hidden">
+            <span style="height: 100%; width: {{ d.barW }}; border-radius: 9999px; overflow: hidden; display: flex">
+              <span style="flex: none; height: 100%; width: {{ d.odW }}; background: #F26052"></span>
+              <span style="flex: 1 1 auto; height: 100%; background: #FFA64D"></span>
+            </span>
+          </span>
+        </span>
+      </button>
+    </sc-for>
+    <sc-if value="{{ noDebts }}" hint-placeholder-val="{{ false }}">
+      <p style="margin: 0; padding: 18px 16px; font-size: 14px; color: #6B7280">{{ noDebtsText }}</p>
+    </sc-if>
+  </div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isClient }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 12px 16px 100px; display: flex; flex-direction: column; gap: 16px">
+  <header style="display: flex; align-items: center; gap: 10px">
+    <button type="button" onClick="{{ backFromClient }}" aria-label="უკან" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M15 5l-7 7 7 7"></path></svg>
+    </button>
+    <div style="display: flex; flex-direction: column; min-width: 0">
+      <span style="font-size: 12px; color: #6B7280">{{ cl.kindLabel }}</span>
+      <h1 style="margin: 0; font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">{{ cl.name }}</h1>
+    </div>
+  </header>
+  <section aria-label="კლიენტის ბალანსი" style="border: 1px solid rgba(20,90,255,0.14); border-radius: 24px; padding: 18px 20px; background: linear-gradient(160deg, rgba(20,90,255,0.10) 0%, rgba(182,203,253,0.40) 100%), #FFFFFF; box-shadow: rgba(20,90,255,0.1) 0px 0px 100px -28px; display: flex; flex-direction: column; gap: 4px">
+    <span style="font-size: 14px; font-weight: 500; color: #374151">ჩასარიცხი</span>
+    <span style="font-size: 40px; line-height: 1.1; font-weight: 600; letter-spacing: -0.035em; color: #020520; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ cl.balance }}</span>
+    <span style="font-size: 13px; color: #374151">{{ cl.sub }}</span>
+    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(20,90,255,0.16); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <span style="font-size: 12px; color: #374151">დარიცხული სულ</span>
+        <span style="font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ cl.billed }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <span style="font-size: 12px; color: #374151">ჩარიცხული სულ</span>
+        <span style="font-size: 17px; font-weight: 600; letter-spacing: -0.02em; color: #145AFF; white-space: nowrap">{{ cl.paid }}</span>
+      </div>
+    </div>
+  </section>
+  <button type="button" onClick="{{ openPayClient }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px; display: flex; align-items: center; justify-content: center; gap: 8px">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+    <span>ჩარიცხვის ასახვა</span>
+  </button>
+  <sc-if value="{{ cl.hasInfo }}" hint-placeholder-val="{{ true }}">
+    <dl style="margin: 0; padding: 4px 16px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; display: flex; flex-direction: column">
+      <sc-for list="{{ cl.info }}" as="r" hint-placeholder-count="2">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-top: {{ r.border }}">
+          <dt style="flex: none; font-size: 13px; color: #6B7280">{{ r.k }}</dt>
+          <dd style="margin: 0; min-width: 0; text-align: right; font-size: 14px; font-weight: 500; color: #14141E">{{ r.v }}</dd>
+        </div>
+      </sc-for>
+    </dl>
+  </sc-if>
+  <sc-if value="{{ cl.hasSite }}" hint-placeholder-val="{{ true }}">
+    <section style="display: flex; flex-direction: column; gap: 8px">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: #020520">ობიექტზე დგას</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px">
+        <sc-for list="{{ cl.site }}" as="st" hint-placeholder-count="2">
+          <button type="button" onClick="{{ st.open }}" style="min-height: 40px; padding: 0 14px; border-radius: 9999px; border: 1px solid #E2E8F0; background: #FFFFFF; color: #14141E; font: inherit; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap">
+            <span style="font-family: 'Roboto Mono', monospace; font-weight: 500; letter-spacing: -0.03em; color: #145AFF">{{ st.code }}</span>
+            <span style="color: #6B7280">{{ st.meta }}</span>
+          </button>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 3px; background: #F1F5F9; border-radius: 9999px">
+    <sc-for list="{{ clTabs }}" as="tb" hint-placeholder-count="2">
+      <button type="button" onClick="{{ tb.pick }}" aria-pressed="{{ tb.pressed }}" style="min-height: 40px; border: 0; border-radius: 9999px; background: {{ tb.bg }}; color: {{ tb.fg }}; box-shadow: {{ tb.shadow }}; font: inherit; font-size: 14px; font-weight: {{ tb.weight }}; cursor: pointer; white-space: nowrap">{{ tb.label }}</button>
+    </sc-for>
+  </div>
+  <sc-if value="{{ clTabTrips }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <sc-for list="{{ cl.trips }}" as="t" hint-placeholder-count="3">
+        <button type="button" onClick="{{ t.open }}" style="appearance: none; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 1px solid {{ t.cardLine }}; border-radius: 16px; background: {{ t.cardBg }}; box-shadow: rgba(0,0,0,0.06) 0px 0px 4px -2px; padding: 12px 14px 12px 12px; min-height: 72px; display: flex; align-items: center; gap: 12px">
+          <span style="position: relative; flex: none; width: 48px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Roboto Mono', 'Noto Sans Georgian', monospace; font-size: 13px; font-weight: 500; letter-spacing: -0.03em; white-space: nowrap; color: {{ t.badgeFg }}; background: {{ t.badgeBg }}">{{ t.vol }}<sc-if value="{{ t.active }}" hint-placeholder-val="{{ false }}"><span role="img" aria-label="ობიექტზეა" style="position: absolute; top: -5px; right: -5px; width: 14px; height: 14px; box-sizing: border-box; border-radius: 9999px; background: #FFA64D; border: 2px solid #FFFFFF"></span></sc-if></span>
+          <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+            <span style="display: flex; align-items: baseline; gap: 6px; min-width: 0; white-space: nowrap; overflow: hidden">
+              <span style="flex: none; font-size: 15px; font-weight: 600; color: {{ t.typeFg }}">{{ t.typeLabel }}</span>
+              <span style="min-width: 0; overflow: hidden; text-overflow: ellipsis; font-family: 'Roboto Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: -0.03em; color: #6B7280">{{ t.code }}</span>
+            </span>
+            <span style="font-size: 13px; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ t.l2 }}</span>
+            <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ t.l3 }}</span>
+          </span>
+          <span style="flex: none; max-width: 124px; display: flex; flex-direction: column; align-items: flex-end; gap: 6px">
+            <span style="font-size: 15px; line-height: 1.2; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ t.amount }}</span>
+            <span style="max-width: 100%; display: flex; align-items: center; gap: 5px; font-family: 'Noto Sans Georgian', sans-serif; font-size: 11.5px; font-weight: 500; font-stretch: 87.5%; color: #374151; white-space: nowrap; overflow: hidden">
+              <sc-if value="{{ t.hasPill }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: {{ t.dot }}"></span></sc-if>
+              <span style="overflow: hidden; text-overflow: ellipsis">{{ t.pill }}</span>
+            </span>
+          </span>
+        </button>
+      </sc-for>
+      <sc-if value="{{ cl.noTrips }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 0; padding: 18px 16px; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; font-size: 14px; color: #6B7280">რეისი ჯერ არ არის.</p>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ clTabPays }}" hint-placeholder-val="{{ false }}">
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; display: flex; flex-direction: column; overflow: hidden">
+      <sc-for list="{{ cl.pays }}" as="p" hint-placeholder-count="3">
+        <div style="border-top: {{ p.border }}; padding: 12px 14px; min-height: 60px; box-sizing: border-box; display: flex; align-items: center; gap: 12px">
+          <span aria-hidden="true" style="flex: none; width: 38px; height: 38px; border-radius: 9999px; background: {{ p.iconBg }}; color: {{ p.iconFg }}; display: flex; align-items: center; justify-content: center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>
+          </span>
+          <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+            <span style="font-size: 15px; font-weight: 500; color: #14141E">{{ p.title }}</span>
+            <span style="font-size: 12px; color: #6B7280">{{ p.meta }}</span>
+          </span>
+          <span style="flex: none; font-size: 15px; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ p.amount }}</span>
+        </div>
+      </sc-for>
+      <sc-if value="{{ cl.noPays }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 0; padding: 18px 16px; font-size: 14px; color: #6B7280">ჩარიცხვა ჯერ არ ასახულა.</p>
+      </sc-if>
+    </div>
+  </sc-if>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isCash }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 20px 16px 100px; display: flex; flex-direction: column; gap: 16px">
+  <header style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+    <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+      <h1 style="margin: 0; font-size: 26px; line-height: 1.2; font-weight: 600; letter-spacing: -0.025em; color: #020520">შემოსავლები</h1>
+      <span style="font-size: 13px; color: #6B7280">ფულადი ნაკადი: გადარიცხვა და ნაღდი</span>
+    </div>
+    <button type="button" onClick="{{ openPayAny }}" style="flex: none; min-height: 44px; padding: 0 14px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2.2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+      <span>ჩარიცხვა</span>
+    </button>
+  </header>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 3px; background: #F1F5F9; border-radius: 9999px">
+    <sc-for list="{{ cfPeriodSeg }}" as="ps" hint-placeholder-count="3">
+      <button type="button" onClick="{{ ps.pick }}" aria-pressed="{{ ps.pressed }}" style="min-height: 40px; border: 0; border-radius: 9999px; background: {{ ps.bg }}; color: {{ ps.fg }}; box-shadow: {{ ps.shadow }}; font: inherit; font-size: 14px; font-weight: {{ ps.weight }}; cursor: pointer">{{ ps.label }}</button>
+    </sc-for>
+  </div>
+  <section aria-label="შემოსავალი პერიოდში" style="border: 1px solid rgba(20,90,255,0.14); border-radius: 24px; padding: 18px 20px; background: linear-gradient(160deg, rgba(20,90,255,0.10) 0%, rgba(182,203,253,0.40) 100%), #FFFFFF; box-shadow: rgba(20,90,255,0.1) 0px 0px 100px -28px; display: flex; flex-direction: column; gap: 4px">
+    <span style="min-width: 0; font-size: 14px; font-weight: 500; color: #374151">{{ cfHeading }}</span>
+    <span style="font-size: 40px; line-height: 1.1; font-weight: 600; letter-spacing: -0.035em; color: #020520; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ cfTotal }}</span>
+    <span style="font-size: 13px; color: #374151">{{ cfCount }}</span>
+    <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(20,90,255,0.16); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px">
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #374151"><span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 9999px; background: #145AFF"></span><span>გადარიცხვით</span></span>
+        <span style="font-size: 18px; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ cfBank }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+        <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #374151"><span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 9999px; background: #A9C1FF"></span><span>ნაღდით</span></span>
+        <span style="font-size: 18px; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ cfCash }}</span>
+      </div>
+    </div>
+  </section>
+  <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; padding: 10px 10px 8px; display: flex; gap: 4px">
+    <sc-for list="{{ cfBars }}" as="b" hint-placeholder-count="8">
+      <button type="button" onClick="{{ b.pick }}" aria-pressed="{{ b.pressed }}" aria-label="{{ b.aria }}" style="flex: 1 1 0; min-width: 0; appearance: none; border: 0; margin: 0; padding: 8px 0 6px; border-radius: 8px; background: {{ b.bg }}; font: inherit; color: #14141E; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px">
+        <span style="height: 112px; width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end">
+          <span style="width: 18px; height: {{ b.hTot }}; border-radius: 4px 4px 0 0; overflow: hidden; display: flex; flex-direction: column">
+            <span style="flex: none; height: {{ b.hCash }}; background: #A9C1FF"></span>
+            <span style="flex: 1 1 auto; background: #145AFF; border-top: {{ b.sep }}"></span>
+          </span>
+        </span>
+        <span style="max-width: 100%; font-size: 11px; font-weight: {{ b.fw }}; color: {{ b.lc }}; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ b.label }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 0 16px">
+    <sc-for list="{{ cfMethodChips }}" as="fl" hint-placeholder-count="3">
+      <button type="button" onClick="{{ fl.pick }}" aria-pressed="{{ fl.pressed }}" style="flex: none; min-height: 40px; padding: 0 14px; border-radius: 9999px; border: 1px solid {{ fl.border }}; background: {{ fl.bg }}; color: {{ fl.fg }}; font: inherit; font-size: 14px; font-weight: {{ fl.weight }}; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap">
+        <span>{{ fl.label }}</span>
+        <span style="color: {{ fl.cc }}">{{ fl.count }}</span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px; display: flex; flex-direction: column; overflow: hidden">
+    <sc-for list="{{ cfList }}" as="p" hint-placeholder-count="6">
+      <button type="button" onClick="{{ p.open }}" style="appearance: none; background: none; margin: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 0; border-top: {{ p.border }}; padding: 12px 14px; min-height: 62px; display: flex; align-items: center; gap: 12px">
+        <span aria-hidden="true" style="flex: none; width: 38px; height: 38px; border-radius: 9999px; background: {{ p.iconBg }}; color: {{ p.iconFg }}; display: flex; align-items: center; justify-content: center">
+          <sc-if value="{{ p.isCash }}" hint-placeholder-val="{{ false }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round"><rect x="2.5" y="6" width="19" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.6"></circle><path d="M6 9.5v5M18 9.5v5"></path></svg>
+          </sc-if>
+          <sc-if value="{{ p.isBank }}" hint-placeholder-val="{{ true }}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round"><path d="M3 9.5 12 4l9 5.5"></path><path d="M5 10v7M9.5 10v7M14.5 10v7M19 10v7"></path><path d="M3 20h18"></path></svg>
+          </sc-if>
+        </span>
+        <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+          <span style="font-size: 15px; font-weight: 500; color: #14141E; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ p.title }}</span>
+          <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ p.meta }}</span>
+        </span>
+        <span style="flex: none; font-size: 15px; font-weight: 600; letter-spacing: -0.02em; color: #020520; white-space: nowrap">{{ p.amount }}</span>
+      </button>
+    </sc-for>
+    <sc-if value="{{ cfEmpty }}" hint-placeholder-val="{{ false }}">
+      <p style="margin: 0; padding: 18px 16px; font-size: 14px; color: #6B7280">ამ პერიოდში შემოსავალი არ ყოფილა.</p>
+    </sc-if>
+  </div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; scrollbar-width: none">
+<div style="min-height: 100%; box-sizing: border-box; display: flex; flex-direction: column">
+  <div style="padding: 40px 20px 36px; border-radius: 0 0 40px 40px; background: linear-gradient(180deg, rgba(20,90,255,0.10) 0%, rgba(182,203,253,0.40) 100%), #FCFCFC; display: flex; flex-direction: column; gap: 22px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <span aria-hidden="true" style="flex: none; width: 40px; height: 40px; border-radius: 10px; background: #145AFF; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M2.5 8.5h19"></path><path d="M4 8.5 6 18.5h12l2-10"></path></svg>
+      </span>
+      <span style="font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: #020520">კონტეინერის რეისები</span>
+    </div>
+    <h1 style="margin: 0; font-size: 36px; line-height: 1.18; font-weight: 600; letter-spacing: -0.03em; color: #020520">კონტეინერები.<br>რეისები.<br><span style="color: #145AFF">ჩარიცხვები.</span></h1>
+    <p style="margin: 0; font-size: 16px; line-height: 1.55; color: #374151">კონტეინერების გაქირავების მართვა ერთი ტელეფონიდან: ვინ რამდენი უნდა ჩარიცხოს და რომელი კონტეინერი სად დგას.</p>
+  </div>
+  <div style="flex: 1 1 auto"></div>
+  <section aria-label="შესვლა" style="margin: 20px 16px 24px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 24px; padding: 20px; box-shadow: rgba(0,0,0,0.08) 0px 0.36px 1.8px -1.4px, rgba(0,0,0,0.07) 0px 1.37px 6.87px -2.8px, rgba(0,0,0,0.016) 0px 6px 30px -4.25px; display: flex; flex-direction: column; gap: 12px">
+    <h2 style="margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.015em; color: #020520">შესვლა ან რეგისტრაცია</h2>
+    <p style="margin: 0 0 4px; font-size: 14px; color: #6B7280">კომპანიის მფლობელი ერთხელ დარეგისტრირდება, შემდეგ კი იმავე ანგარიშით შევა.</p>
+    <button type="button" onClick="{{ gBtn.go }}" disabled="{{ gBtn.disabled }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">{{ gBtn.label }}</button>
+    <button type="button" onClick="{{ aBtn.go }}" disabled="{{ aBtn.disabled }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #020520; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">{{ aBtn.label }}</button>
+    <sc-if value="{{ emailClosed }}" hint-placeholder-val="{{ true }}">
+      <button type="button" onClick="{{ toggleEmail }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 9999px; background: transparent; color: #145AFF; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">ელფოსტით შესვლა</button>
+    </sc-if>
+    <sc-if value="{{ emailOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <input type="email" value="{{ emailVal }}" onChange="{{ setEmail }}" placeholder="name@example.com" aria-label="ელფოსტა" autocomplete="email" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+        <button type="button" onClick="{{ sendEmail }}" disabled="{{ emailBusy }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer">{{ emailBtn }}</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ emailSent }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="padding: 12px 14px; border-radius: 12px; background: #F0F4FE; display: flex; flex-direction: column; gap: 4px">
+        <span style="font-size: 14px; font-weight: 600; color: #020520">ბმული გაიგზავნა</span>
+        <span style="font-size: 13px; line-height: 1.45; color: #374151">გახსენით ელფოსტა {{ emailVal }} და დააჭირეთ შესვლის ბმულს.</span>
+        <button type="button" onClick="{{ emailAgain }}" style="align-self: flex-start; min-height: 36px; padding: 0; border: 0; background: transparent; color: #145AFF; font: inherit; font-size: 13px; font-weight: 500; cursor: pointer">სხვა ელფოსტა / ხელახლა გაგზავნა</button>
+      </div>
+    </sc-if>
+    <sc-if value="{{ hasAuthErr }}" hint-placeholder-val="{{ false }}">
+      <p role="alert" style="margin: 0; font-size: 13px; font-weight: 500; color: #C2362A">{{ authErr }}</p>
+    </sc-if>
+    <sc-if value="{{ authBusyOn }}" hint-placeholder-val="{{ false }}">
+      <p role="status" style="margin: 0; font-size: 13px; font-weight: 500; color: #145AFF; text-align: center">{{ authBusyText }}</p>
+    </sc-if>
+    <p style="margin: 4px 0 0; font-size: 12px; color: #6B7280; text-align: center">გაგრძელებით ეთანხმებით მომსახურების პირობებს და კონფიდენციალურობის პოლიტიკას.</p>
+  </section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ isOnboard }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 100px; overflow-y: auto; scrollbar-width: none">
+<div style="padding: 12px 16px 28px; display: flex; flex-direction: column; gap: 20px">
+  <header style="display: flex; align-items: center; gap: 10px">
+    <button type="button" onClick="{{ obBack }}" aria-label="უკან" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M15 5l-7 7 7 7"></path></svg>
+    </button>
+    <h1 style="margin: 0; min-width: 0; font-size: 24px; line-height: 1.2; font-weight: 600; letter-spacing: -0.025em; color: #020520">{{ obTitle }}</h1>
+  </header>
+  <sc-if value="{{ obIsReg }}" hint-placeholder-val="{{ true }}">
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+      <span style="min-height: 38px; box-sizing: border-box; padding: 0 10px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 13px; font-weight: 500; color: #374151; white-space: nowrap">
+        <span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 9999px; background: #16CA2E"></span>
+        <span>1 · ანგარიში</span>
+      </span>
+      <span style="min-height: 38px; box-sizing: border-box; padding: 0 10px; border: 1px solid #145AFF; border-radius: 9999px; background: #F0F4FE; color: #145AFF; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; white-space: nowrap">2 · კომპანია</span>
+    </div>
+  </sc-if>
+  <div style="display: flex; align-items: center; gap: 12px; padding: 14px 15px; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px">
+    <span aria-hidden="true" style="flex: none; width: 40px; height: 40px; border-radius: 9999px; background: {{ acctV.bg }}; color: {{ acctV.fg }}; display: flex; align-items: center; justify-content: center">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><circle cx="12" cy="8.5" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg>
+    </span>
+    <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+      <span style="font-size: 15px; font-weight: 500; color: #14141E">{{ acctV.label }}</span>
+      <span style="font-size: 13px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ acctV.email }}</span>
+    </span>
+    <span style="flex: none; display: flex; align-items: center; gap: 5px; font-family: 'Noto Sans Georgian', sans-serif; font-size: 11.5px; font-weight: 500; font-stretch: 87.5%; color: #374151; white-space: nowrap">
+      <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 9999px; background: #16CA2E"></span>
+      <span>დაკავშირებულია</span>
+    </span>
+  </div>
+  <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+    <span>მფლობელი — სახელი, გვარი</span>
+    <input type="text" value="{{ ob.owner }}" onChange="{{ obSet.owner }}" placeholder="მაგ. ნინო კ." autocomplete="name" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+  </label>
+  <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+    <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">სამართლებრივი ფორმა</legend>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 9999px; background: #F1F5F9">
+      <sc-for list="{{ obFormSeg }}" as="fs" hint-placeholder-count="3">
+        <button type="button" onClick="{{ fs.pick }}" aria-pressed="{{ fs.pressed }}" style="min-height: 40px; border: 0; border-radius: 9999px; background: {{ fs.bg }}; color: {{ fs.fg }}; box-shadow: {{ fs.shadow }}; font: inherit; font-size: 15px; font-weight: {{ fs.weight }}; cursor: pointer">{{ fs.label }}</button>
+      </sc-for>
+    </div>
+  </fieldset>
+  <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+    <span>კომპანიის დასახელება</span>
+    <input type="text" value="{{ ob.name }}" onChange="{{ obSet.name }}" placeholder="მაგ. ალფა კონტეინერი" autocomplete="organization" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; font-weight: 500; color: #14141E">
+  </label>
+  <div style="display: flex; flex-direction: column; gap: 8px">
+    <span style="font-size: 13px; font-weight: 500; color: #374151">კომპანიის ლოგო</span>
+    <div style="display: flex; align-items: center; gap: 14px; padding: 12px; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF">
+      <span style="flex: none; width: 68px; height: 68px; box-sizing: border-box; border: 1px {{ obLogoBorder }} #CBD5E1; border-radius: 14px; overflow: hidden; background: #F8FAFC; color: #6B7280; display: flex; align-items: center; justify-content: center">
+        <sc-if value="{{ obHasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ ob.logo }}" alt="კომპანიის ლოგო" style="width: 100%; height: 100%; object-fit: contain; background: #FFFFFF"></sc-if>
+        <sc-if value="{{ obNoLogo }}" hint-placeholder-val="{{ true }}"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="m4 17.5 5-4.5 3.5 3 3-2.5 4.5 4"></path></svg></sc-if>
+      </span>
+      <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 12px; line-height: 1.4; color: #6B7280">PNG, JPG ან SVG · მაქს. 2 მბ</span>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <label style="position: relative; overflow: hidden; min-height: 40px; padding: 0 14px; box-sizing: border-box; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; cursor: pointer; white-space: nowrap">
+            <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" onChange="{{ obSet.logo }}" aria-label="ლოგოს ატვირთვა" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer">
+            <span>{{ obLogoBtn }}</span>
+          </label>
+          <sc-if value="{{ obHasLogo }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ obSet.logoClear }}" style="min-height: 40px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #374151; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">წაშლა</button>
+          </sc-if>
+        </div>
+        <sc-if value="{{ hasLogoErr }}" hint-placeholder-val="{{ false }}">
+          <span role="alert" style="font-size: 12px; font-weight: 500; color: #C2362A">{{ logoErr }}</span>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+  <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+    <span>{{ obCodeLabel }}</span>
+    <input type="text" inputmode="numeric" value="{{ ob.code }}" onChange="{{ obSet.code }}" placeholder="{{ obCodePh }}" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font-family: 'Roboto Mono', monospace; font-size: 16px; font-weight: 500; letter-spacing: 0.02em; color: #14141E">
+  </label>
+  <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+    <span>მობილურის ნომერი</span>
+    <span style="display: flex; align-items: stretch; box-sizing: border-box; width: 100%; min-height: 50px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; overflow: hidden">
+      <span style="flex: none; display: flex; align-items: center; padding: 0 12px; border-right: 1px solid #E2E8F0; background: #F1F5F9; font-size: 16px; font-weight: 500; color: #374151">+995</span>
+      <input type="tel" value="{{ ob.phone }}" onChange="{{ obSet.phone }}" placeholder="5__ __ __ __" autocomplete="tel-national" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; padding: 0 14px; border: 0; background: transparent; font: inherit; font-size: 16px; letter-spacing: 0.02em; color: #14141E">
+    </span>
+  </label>
+  <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+    <span>ქალაქი</span>
+    <select value="{{ ob.city }}" onChange="{{ obSet.city }}" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 12px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+      <option value="ბათუმი">ბათუმი</option>
+      <option value="თბილისი">თბილისი</option>
+      <option value="ქუთაისი">ქუთაისი</option>
+      <option value="ფოთი">ფოთი</option>
+      <option value="რუსთავი">რუსთავი</option>
+      <option value="ზუგდიდი">ზუგდიდი</option>
+      <option value="გორი">გორი</option>
+      <option value="სხვა">სხვა</option>
+    </select>
+  </label>
+  <sc-if value="{{ obIsReg }}" hint-placeholder-val="{{ true }}">
+    <label style="display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 8px 15px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font-size: 14px; font-weight: 500; color: #14141E; cursor: pointer">
+      <input type="checkbox" checked="{{ ob.terms }}" onChange="{{ obSet.terms }}" style="flex: none; width: 20px; height: 20px; margin: 0; accent-color: #145AFF">
+      <span style="min-width: 0">ვეთანხმები მომსახურების პირობებს და კონფიდენციალურობის პოლიტიკას</span>
+    </label>
+  </sc-if>
+</div>
+</div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; box-sizing: border-box; padding: 12px 16px 20px; background: rgba(252,252,252,0.96); border-top: 1px solid #E2E8F0; display: flex; flex-direction: column; gap: 8px">
+  <sc-if value="{{ hasObErr }}" hint-placeholder-val="{{ false }}">
+    <span role="alert" style="font-size: 13px; font-weight: 500; color: #C2362A">{{ obErr }}</span>
+  </sc-if>
+  <button type="button" onClick="{{ saveOb }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">{{ obBtn }}</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+<nav aria-label="მთავარი მენიუ" style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 10; height: 80px; box-sizing: border-box; padding: 6px 2px 12px; background: rgba(252,252,252,0.94); backdrop-filter: blur(15px); border-top: 1px solid #E2E8F0; display: grid; grid-template-columns: 45fr 44fr 71fr 52px 56fr 67fr 45fr; gap: 1px">
+  <button type="button" onClick="{{ goHome }}" aria-current="{{ nav.home.current }}" aria-label="მთავარი" style="appearance: none; border: 0; margin: 0; padding: 8px 1px 0; min-width: 0; font: inherit; cursor: pointer; border-radius: 12px; background: {{ nav.home.bg }}; color: {{ nav.home.fg }}; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; overflow: hidden">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M3.5 10.5 12 3.5l8.5 7V20a.5.5 0 0 1-.5.5h-5v-6h-6v6H4a.5.5 0 0 1-.5-.5z"></path></svg>
+    <span aria-hidden="true" style="max-width: 100%; font-family: 'Noto Sans Georgian', sans-serif; font-size: 10px; line-height: 1.1; font-weight: {{ nav.home.weight }}; font-stretch: 75%; letter-spacing: 0; text-align: center; white-space: normal; overflow: hidden">მთავარი</span>
+  </button>
+  <button type="button" onClick="{{ goTrips }}" aria-current="{{ nav.trips.current }}" aria-label="რეისები" style="appearance: none; border: 0; margin: 0; padding: 8px 1px 0; min-width: 0; font: inherit; cursor: pointer; border-radius: 12px; background: {{ nav.trips.bg }}; color: {{ nav.trips.fg }}; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; overflow: hidden">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M2.5 6.5h11v9h-11z"></path><path d="M13.5 9.5h4l3 3v3h-7"></path><circle cx="6.5" cy="17.5" r="1.8"></circle><circle cx="16.5" cy="17.5" r="1.8"></circle></svg>
+    <span aria-hidden="true" style="max-width: 100%; font-family: 'Noto Sans Georgian', sans-serif; font-size: 10px; line-height: 1.1; font-weight: {{ nav.trips.weight }}; font-stretch: 75%; letter-spacing: 0; text-align: center; white-space: normal; overflow: hidden">რეისები</span>
+  </button>
+  <button type="button" onClick="{{ goContainers }}" aria-current="{{ nav.containers.current }}" aria-label="კონტეინერები" style="appearance: none; border: 0; margin: 0; padding: 8px 1px 0; min-width: 0; font: inherit; cursor: pointer; border-radius: 12px; background: {{ nav.containers.bg }}; color: {{ nav.containers.fg }}; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; overflow: hidden">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M2.5 8.5h19"></path><path d="M4 8.5 6 18.5h12l2-10"></path><path d="M9 11.5v4M12 11.5v4M15 11.5v4"></path></svg>
+    <span aria-hidden="true" style="max-width: 100%; font-family: 'Noto Sans Georgian', sans-serif; font-size: 10px; line-height: 1.1; font-weight: {{ nav.containers.weight }}; font-stretch: 75%; letter-spacing: 0; text-align: center; white-space: normal; overflow: hidden">კონტეინერები</span>
+  </button>
+  <div style="display: flex; align-items: center; justify-content: center; min-width: 0">
+    <button type="button" onClick="{{ goNew }}" aria-label="ახალი რეისი" style="width: 50px; height: 50px; box-sizing: border-box; padding: 0; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; cursor: pointer; box-shadow: rgba(20,90,255,0.1) 0px 0px 50px -28px, rgba(20,90,255,0.3) 0px 0px 4px -2px; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2.2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+    </button>
+  </div>
+  <button type="button" onClick="{{ goClients }}" aria-current="{{ nav.clients.current }}" aria-label="კლიენტები" style="appearance: none; border: 0; margin: 0; padding: 8px 1px 0; min-width: 0; font: inherit; cursor: pointer; border-radius: 12px; background: {{ nav.clients.bg }}; color: {{ nav.clients.fg }}; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; overflow: hidden">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"></path><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"></path><path d="M18 14.3c2.1.7 3.5 2.7 3.5 5.7"></path></svg>
+    <span aria-hidden="true" style="max-width: 100%; font-family: 'Noto Sans Georgian', sans-serif; font-size: 10px; line-height: 1.1; font-weight: {{ nav.clients.weight }}; font-stretch: 75%; letter-spacing: 0; text-align: center; white-space: normal; overflow: hidden">კლიენტები</span>
+  </button>
+  <button type="button" onClick="{{ goCash }}" aria-current="{{ nav.cash.current }}" aria-label="შემოსავლები" style="appearance: none; border: 0; margin: 0; padding: 8px 1px 0; min-width: 0; font: inherit; cursor: pointer; border-radius: 12px; background: {{ nav.cash.bg }}; color: {{ nav.cash.fg }}; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; overflow: hidden">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M3 17.5 9 11.5l4 4 7.5-7.5"></path><path d="M15 8h5.5v5.5"></path></svg>
+    <span aria-hidden="true" style="max-width: 100%; font-family: 'Noto Sans Georgian', sans-serif; font-size: 10px; line-height: 1.1; font-weight: {{ nav.cash.weight }}; font-stretch: 75%; letter-spacing: 0; text-align: center; white-space: normal; overflow: hidden">შემოსავლები</span>
+  </button>
+  <button type="button" onClick="{{ goDebtsNav }}" aria-current="{{ nav.debts.current }}" aria-label="ასაღები ვალები" style="appearance: none; border: 0; margin: 0; padding: 8px 1px 0; min-width: 0; font: inherit; cursor: pointer; border-radius: 12px; background: {{ nav.debts.bg }}; color: {{ nav.debts.fg }}; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 4px; overflow: hidden">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M6 3.5h12v17l-3-1.8-3 1.8-3-1.8-3 1.8z"></path><path d="M9 8.5h6M9 12h6M9 15.5h3.5"></path></svg>
+    <span aria-hidden="true" style="max-width: 100%; font-family: 'Noto Sans Georgian', sans-serif; font-size: 10px; line-height: 1.1; font-weight: {{ nav.debts.weight }}; font-stretch: 75%; letter-spacing: 0; text-align: center; white-space: normal; overflow: hidden">ასაღები ვალები</span>
+  </button>
+</nav>
+</sc-if>
+
+<sc-if value="{{ showMenu }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 25">
+  <button type="button" onClick="{{ closeMenu }}" aria-label="მენიუს დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.14); cursor: pointer"></button>
+  <div role="menu" aria-label="კომპანიის მენიუ" style="position: absolute; top: 76px; right: 16px; width: 276px; box-sizing: border-box; padding: 8px; border: 1px solid #E2E8F0; border-radius: 20px; background: #FFFFFF; box-shadow: rgba(2,5,32,0.16) 0px 18px 44px -14px, rgba(0,0,0,0.08) 0px 1.37px 6.87px -2.8px; display: flex; flex-direction: column; gap: 2px">
+    <div style="display: flex; align-items: center; gap: 12px; padding: 8px 8px 12px; margin-bottom: 4px; border-bottom: 1px solid #E2E8F0">
+      <span aria-hidden="true" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; background: #F0F4FE; color: #145AFF; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600"><sc-if value="{{ hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ coLogo }}" alt="" style="width: 100%; height: 100%; object-fit: contain; background: #FFFFFF"></sc-if><sc-if value="{{ noLogo }}" hint-placeholder-val="{{ true }}"><span>{{ coInitials }}</span></sc-if></span>
+      <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+        <span style="font-size: 15px; line-height: 1.3; font-weight: 600; color: #020520">{{ companyFull }}</span>
+        <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ menuSub }}</span>
+      </span>
+    </div>
+    <button type="button" role="menuitem" onClick="{{ openProfile }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #14141E; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M4 20.5V6.5l8-3 8 3v14"></path><path d="M9 20.5v-5h6v5M8 10h2M14 10h2"></path></svg>
+      <span>კომპანიის პროფილი</span>
+    </button>
+    <button type="button" role="menuitem" onClick="{{ editProfile }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #14141E; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M4 20h4L19 9l-4-4L4 16z"></path><path d="m13.5 6.5 4 4"></path></svg>
+      <span>პროფილის რედაქტირება და ლოგო</span>
+    </button>
+    <button type="button" role="menuitem" onClick="{{ openPrices }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #14141E; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M3.5 12.5V4.5a1 1 0 0 1 1-1h8l8 8-9 9z"></path><circle cx="8" cy="8" r="1.4"></circle></svg>
+      <span>ფასები და ტარიფები</span>
+    </button>
+    <div aria-hidden="true" style="height: 1px; margin: 4px 8px; background: #E2E8F0"></div>
+    <button type="button" role="menuitem" onClick="{{ signOut }}" style="appearance: none; border: 0; margin: 0; width: 100%; min-height: 48px; padding: 0 10px; border-radius: 12px; background: transparent; color: #C2362A; font: inherit; font-size: 15px; font-weight: 500; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round"><path d="M14 4.5H6.5v15H14"></path><path d="M10.5 12H20M16.5 8.5 20 12l-3.5 3.5"></path></svg>
+      <span>ანგარიშიდან გასვლა</span>
+    </button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPrices }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end">
+  <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.35); cursor: pointer"></button>
+  <div role="dialog" aria-modal="true" aria-label="ფასები და ტარიფები" style="position: relative; max-height: 94%; overflow-y: auto; scrollbar-width: none; background: #FFFFFF; border-radius: 28px 28px 0 0; box-shadow: rgba(2,5,32,0.12) 0px -8px 30px -4px; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 9999px; background: #E2E8F0"></span>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <h2 style="flex: 1 1 auto; min-width: 0; margin: 0; font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">ფასები და ტარიფები</h2>
+      <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #6B7280">ერთი ფასი მოქმედებს მიტანაზეც და შეცვლაზეც — ორივე შემთხვევაში ობიექტზე ახალი კონტეინერი მიდის. გატანას ცალკე ფასი არ აქვს. ახალ რეისზე ფასი ავტომატურად ჩაიწერება, თუმცა რეისზე მაინც შეგიძლიათ შეცვალოთ.</p>
+    <div style="border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden">
+      <div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; padding: 10px 14px; background: #F8FAFC; font-size: 12px; font-weight: 500; color: #6B7280">
+        <span>მოცულობა</span>
+        <span>ფასი, ₾</span>
+      </div>
+      <sc-for list="{{ pz.rows }}" as="rw" hint-placeholder-count="5">
+        <div style="display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; align-items: center; padding: 8px 14px; border-top: 1px solid #E2E8F0">
+          <span style="font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: #020520; white-space: nowrap">{{ rw.label }}</span>
+          <input type="text" inputmode="numeric" value="{{ rw.price }}" onChange="{{ rw.setPrice }}" aria-label="{{ rw.aria }}" autocomplete="off" style="box-sizing: border-box; width: 100%; min-width: 0; min-height: 46px; padding: 0 14px; border: 1px solid {{ rw.border }}; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; color: #020520">
+        </div>
+      </sc-for>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <span style="font-size: 13px; font-weight: 500; color: #374151">ყველა ფასის კორექტირება</span>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px">
+        <sc-for list="{{ pz.adjust }}" as="aj" hint-placeholder-count="4">
+          <button type="button" onClick="{{ aj.pick }}" style="min-height: 42px; padding: 0 6px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap">{{ aj.label }}</button>
+        </sc-for>
+      </div>
+      <span style="font-size: 12px; color: #6B7280">თანხები მრგვალდება 5 ლარამდე. ცვლილება აისახება შენახვის შემდეგ.</span>
+    </div>
+    <sc-if value="{{ pz.hasChanges }}" hint-placeholder-val="{{ false }}">
+      <span style="font-size: 13px; font-weight: 500; color: #145AFF">{{ pz.changesText }}</span>
+    </sc-if>
+    <sc-if value="{{ pz.hasErr }}" hint-placeholder-val="{{ false }}">
+      <span role="alert" style="font-size: 13px; font-weight: 500; color: #C2362A">{{ pz.err }}</span>
+    </sc-if>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <button type="button" onClick="{{ pz.save }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">ფასების შენახვა</button>
+      <button type="button" onClick="{{ pz.reset }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 9999px; background: transparent; color: #374151; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">საწყის ფასებზე დაბრუნება</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showTrip }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end">
+  <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.35); cursor: pointer"></button>
+  <div role="dialog" aria-modal="true" aria-label="რეისის დეტალები" style="position: relative; max-height: 92%; overflow-y: auto; scrollbar-width: none; background: #FFFFFF; border-radius: 28px 28px 0 0; box-shadow: rgba(2,5,32,0.12) 0px -8px 30px -4px; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 9999px; background: #E2E8F0"></span>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span style="flex: none; width: 56px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Roboto Mono', 'Noto Sans Georgian', monospace; font-size: 14px; font-weight: 500; letter-spacing: -0.03em; white-space: nowrap; color: {{ ts.badgeFg }}; background: {{ ts.badgeBg }}">{{ ts.vol }}</span>
+      <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+        <span style="display: flex; align-items: baseline; gap: 4px 8px; flex-wrap: wrap">
+          <span style="font-size: 19px; font-weight: 600; letter-spacing: -0.02em; color: #020520">{{ ts.typeLabel }}</span>
+          <span style="font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: 500; letter-spacing: -0.03em; color: #6B7280">{{ ts.code }}</span>
+        </span>
+        <span style="font-size: 14px; color: #374151">{{ ts.address }}</span>
+      </div>
+      <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <sc-if value="{{ ts.priced }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px; background: #F0F4FE">
+        <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0">
+          <span style="font-size: 12px; color: #374151">დარჩენილი ჩასარიცხი</span>
+          <span style="font-size: 30px; line-height: 1.15; font-weight: 600; letter-spacing: -0.035em; color: #020520; white-space: nowrap">{{ ts.left }}</span>
+        </div>
+        <span style="flex: none; display: flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 9999px; background: #FFFFFF; font-family: 'Noto Sans Georgian', sans-serif; font-size: 12px; font-weight: 500; font-stretch: 90%; color: #374151; white-space: nowrap">
+          <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 9999px; background: {{ ts.dot }}"></span>
+          <span>{{ ts.pill }}</span>
+        </span>
+      </div>
+    </sc-if>
+    <sc-if value="{{ ts.active }}" hint-placeholder-val="{{ false }}">
+      <section aria-label="შემდეგი რეისი" style="display: flex; flex-direction: column; gap: 14px; padding: 14px; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; box-shadow: rgba(0,0,0,0.1) 0px 0px 4px -2px">
+        <div style="display: flex; flex-direction: column; gap: 2px">
+          <span style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #020520">
+            <span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 9999px; background: #FFA64D"></span>
+            <span style="min-width: 0">{{ ts.activeTitle }}</span>
+          </span>
+          <span style="font-size: 13px; font-weight: 500; color: #14141E">{{ ts.activeSub }}</span>
+          <span style="font-size: 13px; color: #6B7280">შემდეგი რეისი — გატანა ან სხვა კონტეინერით შეცვლა</span>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <sc-for list="{{ nx.modes }}" as="md" hint-placeholder-count="2">
+            <button type="button" onClick="{{ md.pick }}" aria-pressed="{{ md.pressed }}" style="min-height: 48px; padding: 0 12px; border: 1px solid {{ md.border }}; border-radius: 9999px; background: {{ md.bg }}; color: {{ md.fg }}; font: inherit; font-size: 15px; font-weight: {{ md.weight }}; cursor: pointer">{{ md.label }}</button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ nx.isSwap }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 16px">
+            <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+              <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">ახალი კონტეინერის მოცულობა</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <sc-for list="{{ nx.volChips }}" as="v" hint-placeholder-count="5">
+                  <button type="button" onClick="{{ v.pick }}" aria-pressed="{{ v.pressed }}" disabled="{{ v.disabled }}" style="min-height: 52px; min-width: 84px; padding: 6px 12px; border-radius: 14px; border: 1px solid {{ v.border }}; background: {{ v.bg }}; color: {{ v.fg }}; font: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; justify-content: center">
+                    <span style="font-size: 15px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap">{{ v.label }}</span>
+                    <span style="font-size: 11.5px; white-space: nowrap; color: {{ v.sc }}">{{ v.sub }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </fieldset>
+            <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+              <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">თავისუფალი კონტეინერი</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <sc-for list="{{ nx.contChips }}" as="fc" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ fc.pick }}" aria-pressed="{{ fc.pressed }}" style="min-height: 40px; padding: 0 14px; border-radius: 9999px; border: 1px solid {{ fc.border }}; background: {{ fc.bg }}; color: {{ fc.fg }}; font-family: 'Roboto Mono', monospace; font-size: 14px; font-weight: 500; letter-spacing: -0.03em; cursor: pointer; white-space: nowrap">{{ fc.code }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ nx.noFree }}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 0; font-size: 13px; font-weight: 500; color: #C2362A">ამ მოცულობის თავისუფალი კონტეინერი არ არის — აირჩიეთ სხვა მოცულობა.</p>
+              </sc-if>
+            </fieldset>
+            <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+              <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">შემდეგი რეისის ფასი</legend>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: 8px">
+                <sc-for list="{{ nx.priceOpts }}" as="po" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ po.pick }}" aria-pressed="{{ po.pressed }}" style="min-width: 0; min-height: 56px; padding: 6px 10px; border-radius: 14px; border: 1px solid {{ po.border }}; background: {{ po.bg }}; color: {{ po.fg }}; font: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; text-align: left">
+                    <span style="max-width: 100%; font-size: 12.5px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: {{ po.sc }}">{{ po.label }}</span>
+                    <span style="max-width: 100%; font-size: 16px; font-weight: 600; letter-spacing: -0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ po.sub }}</span>
+                  </button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ nx.isCustom }}" hint-placeholder-val="{{ false }}">
+                <input type="text" inputmode="decimal" value="{{ nx.price }}" onChange="{{ nx.setPrice }}" placeholder="0" aria-label="შემდეგი რეისის ფასი, ₾" autocomplete="off" style="margin-top: 10px; box-sizing: border-box; width: 100%; min-height: 52px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 20px; font-weight: 600; letter-spacing: -0.02em; color: #020520">
+              </sc-if>
+            </fieldset>
+          </div>
+        </sc-if>
+        <sc-if value="{{ nx.isPickup }}" hint-placeholder-val="{{ false }}">
+          <p style="margin: 0; padding: 12px 14px; border-radius: 12px; background: #E8F6F3; color: #14141E; font-size: 13px; font-weight: 500">{{ nx.pickupNote }}</p>
+        </sc-if>
+        <sc-if value="{{ nx.hasMode }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+              <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+                <span>თარიღი</span>
+                <input type="date" value="{{ nx.date }}" onChange="{{ nx.setDate }}" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 10px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+              </label>
+              <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+                <span>მძღოლი</span>
+                <input type="text" value="{{ nx.driver }}" onChange="{{ nx.setDriver }}" placeholder="სახელი" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 48px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+              </label>
+            </div>
+            <sc-if value="{{ nx.isSwap }}" hint-placeholder-val="{{ false }}">
+              <label style="display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 14px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font-size: 14px; font-weight: 500; color: #14141E; cursor: pointer">
+                <input type="checkbox" checked="{{ nx.paidNow }}" onChange="{{ nx.setPaid }}" style="flex: none; width: 20px; height: 20px; margin: 0; accent-color: #145AFF">
+                <span style="min-width: 0">ადგილზე გადაიხადა — ნაღდი ფულით</span>
+              </label>
+            </sc-if>
+            <sc-if value="{{ nx.hasErr }}" hint-placeholder-val="{{ false }}">
+              <span role="alert" style="font-size: 13px; font-weight: 500; color: #C2362A">{{ nx.err }}</span>
+            </sc-if>
+            <button type="button" onClick="{{ nx.save }}" style="min-height: 52px; padding: 0 20px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">{{ nx.btn }}</button>
+          </div>
+        </sc-if>
+      </section>
+    </sc-if>
+    <dl style="margin: 0; display: flex; flex-direction: column">
+      <sc-for list="{{ ts.rows }}" as="r" hint-placeholder-count="7">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-top: {{ r.border }}">
+          <dt style="flex: none; font-size: 13px; color: #6B7280">{{ r.k }}</dt>
+          <dd style="margin: 0; min-width: 0; text-align: right; font-size: 14px; font-weight: 500; color: #14141E">{{ r.v }}</dd>
+        </div>
+      </sc-for>
+    </dl>
+    <button type="button" onClick="{{ ts.openClient }}" style="min-height: 48px; padding: 0 24px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">კლიენტის ბარათი — {{ ts.clientShort }}</button>
+    <button type="button" onClick="{{ tdel.ask }}" style="align-self: center; appearance: none; border: 0; background: none; margin: 0; padding: 0 12px; min-height: 44px; font: inherit; font-size: 14px; font-weight: 500; color: #C2362A; cursor: pointer; display: flex; align-items: center; gap: 6px">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"></path></svg>
+      <span>რეისის გაუქმება</span>
+    </button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPay }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end">
+  <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.35); cursor: pointer"></button>
+  <div role="dialog" aria-modal="true" aria-label="ჩარიცხვის ასახვა" style="position: relative; max-height: 92%; overflow-y: auto; scrollbar-width: none; background: #FFFFFF; border-radius: 28px 28px 0 0; box-shadow: rgba(2,5,32,0.12) 0px -8px 30px -4px; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 9999px; background: #E2E8F0"></span>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <h2 style="flex: 1 1 auto; min-width: 0; margin: 0; font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">ჩარიცხვის ასახვა</h2>
+      <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <sc-if value="{{ payPick }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span id="cp-pay-label" style="font-size: 13px; font-weight: 500; color: #374151">ვინ ჩარიცხა?</span>
+        <button type="button" onClick="{{ cpPay.toggle }}" aria-expanded="{{ cpPay.open }}" aria-labelledby="cp-pay-label" style="box-sizing: border-box; width: 100%; min-height: 56px; padding: 6px 14px 6px 15px; border: 1px solid {{ cpPay.border }}; border-radius: 12px; background: #FFFFFF; font: inherit; color: #14141E; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left">
+          <span style="flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0">
+            <span style="font-size: 16px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: {{ cpPay.labelColor }}">{{ cpPay.label }}</span>
+            <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ cpPay.sub }}</span>
+          </span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #374151; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="{{ cpPay.chevron }}"></path></svg>
+        </button>
+        <sc-if value="{{ cpPay.open }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; overflow: hidden; box-shadow: rgba(0,0,0,0.08) 0px 0.36px 1.8px -1.4px, rgba(0,0,0,0.07) 0px 1.37px 6.87px -2.8px, rgba(0,0,0,0.016) 0px 6px 30px -4.25px">
+            <div style="padding: 8px; border-bottom: 1px solid #E2E8F0">
+              <input type="search" value="{{ cpPay.query }}" onChange="{{ cpPay.setQuery }}" placeholder="ძებნა: სახელი, კოდი, ტელეფონი" aria-label="კლიენტის ძებნა" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 44px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 12px; background: #F1F5F9; font: inherit; font-size: 16px; color: #14141E">
+            </div>
+            <div style="max-height: 256px; overflow-y: auto; display: flex; flex-direction: column">
+              <sc-for list="{{ cpPay.items }}" as="it" hint-placeholder-count="5">
+                <button type="button" onClick="{{ it.pick }}" aria-pressed="{{ it.on }}" style="appearance: none; margin: 0; font: inherit; color: #14141E; text-align: left; cursor: pointer; width: 100%; box-sizing: border-box; border: 0; border-top: {{ it.border }}; background: {{ it.bg }}; padding: 8px 15px; min-height: 54px; display: flex; align-items: center; gap: 10px">
+                  <span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column">
+                    <span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ it.name }}</span>
+                    <span style="font-size: 12px; color: #6B7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ it.sub }}</span>
+                  </span>
+                  <sc-if value="{{ it.on }}" hint-placeholder-val="{{ false }}">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="flex: none; color: #145AFF; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"><path d="m5 12.5 4.5 4.5L19 7.5"></path></svg>
+                  </sc-if>
+                </button>
+              </sc-for>
+              <sc-if value="{{ cpPay.empty }}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 0; padding: 14px 15px; font-size: 14px; color: #6B7280">კლიენტი ვერ მოიძებნა.</p>
+              </sc-if>
+              <sc-if value="{{ cpPay.hasMore }}" hint-placeholder-val="{{ false }}">
+                <p style="margin: 0; padding: 10px 15px; font-size: 12px; color: #6B7280; border-top: 1px solid #E2E8F0">{{ cpPay.moreNote }}</p>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+    <sc-if value="{{ payFixed }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-radius: 16px; background: #F0F4FE">
+        <span style="font-size: 15px; font-weight: 600; color: #020520">{{ payClientName }}</span>
+        <span style="font-size: 13px; color: #374151">ჩასარიცხი {{ payDebt }}</span>
+      </div>
+    </sc-if>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+      <span>ჩარიცხული თანხა, ₾</span>
+      <input type="text" inputmode="decimal" value="{{ payAmt }}" onChange="{{ setPayAmt }}" placeholder="0" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 60px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 28px; font-weight: 600; letter-spacing: -0.03em; color: #020520">
+    </label>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 9999px; background: #F1F5F9">
+      <sc-for list="{{ methodSeg }}" as="m" hint-placeholder-count="2">
+        <button type="button" onClick="{{ m.pick }}" aria-pressed="{{ m.pressed }}" style="min-height: 40px; border: 0; border-radius: 9999px; background: {{ m.bg }}; color: {{ m.fg }}; box-shadow: {{ m.shadow }}; font: inherit; font-size: 14px; font-weight: {{ m.weight }}; cursor: pointer">{{ m.label }}</button>
+      </sc-for>
+    </div>
+    <p style="margin: 0; font-size: 13px; color: #6B7280">{{ payExplain }}</p>
+    <sc-if value="{{ hasPayErr }}" hint-placeholder-val="{{ false }}">
+      <span role="alert" style="font-size: 13px; font-weight: 500; color: #C2362A">{{ payErr }}</span>
+    </sc-if>
+    <button type="button" onClick="{{ savePay }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">{{ payBtn }}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showNc }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end">
+  <button type="button" onClick="{{ closeNc }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.35); cursor: pointer"></button>
+  <div role="dialog" aria-modal="true" aria-label="ახალი კლიენტი" style="position: relative; max-height: 92%; overflow-y: auto; scrollbar-width: none; background: #FFFFFF; border-radius: 28px 28px 0 0; box-shadow: rgba(2,5,32,0.12) 0px -8px 30px -4px; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 9999px; background: #E2E8F0"></span>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <h2 style="flex: 1 1 auto; min-width: 0; margin: 0; font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">ახალი კლიენტი</h2>
+      <button type="button" onClick="{{ closeNc }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 9999px; background: #F1F5F9">
+      <sc-for list="{{ ncKindSeg }}" as="k" hint-placeholder-count="2">
+        <button type="button" onClick="{{ k.pick }}" aria-pressed="{{ k.pressed }}" style="min-height: 40px; border: 0; border-radius: 9999px; background: {{ k.bg }}; color: {{ k.fg }}; box-shadow: {{ k.shadow }}; font: inherit; font-size: 14px; font-weight: {{ k.weight }}; cursor: pointer; white-space: nowrap">{{ k.label }}</button>
+      </sc-for>
+    </div>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+      <span>{{ ncNameLabel }}</span>
+      <input type="text" value="{{ nc.name }}" onChange="{{ n.name }}" placeholder="{{ ncNamePh }}" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; font-weight: 500; color: #14141E">
+    </label>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px">
+      <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+        <span>{{ ncCodeLabel }}</span>
+        <input type="text" inputmode="numeric" value="{{ nc.code }}" onChange="{{ n.code }}" placeholder="არასავალდებულო" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+      </label>
+      <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+        <span>ტელეფონი</span>
+        <input type="tel" value="{{ nc.phone }}" onChange="{{ n.phone }}" placeholder="5__ __ __ __" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 14px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+      </label>
+    </div>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+      <span>ობიექტის მისამართი</span>
+      <input type="text" value="{{ nc.address }}" onChange="{{ n.address }}" placeholder="ქუჩა, ნომერი" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 16px; color: #14141E">
+    </label>
+    <sc-if value="{{ hasNcErr }}" hint-placeholder-val="{{ false }}">
+      <span role="alert" style="font-size: 13px; font-weight: 500; color: #C2362A">{{ ncErr }}</span>
+    </sc-if>
+    <button type="button" onClick="{{ saveNc }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">კლიენტის დამატება</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showCont }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end">
+  <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.35); cursor: pointer"></button>
+  <div role="dialog" aria-modal="true" aria-label="კონტეინერი" style="position: relative; max-height: 92%; overflow-y: auto; scrollbar-width: none; background: #FFFFFF; border-radius: 28px 28px 0 0; box-shadow: rgba(2,5,32,0.12) 0px -8px 30px -4px; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 9999px; background: #E2E8F0"></span>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span style="flex: none; width: 56px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Roboto Mono', 'Noto Sans Georgian', monospace; font-size: 14px; font-weight: 500; letter-spacing: -0.03em; white-space: nowrap; background: #F1F5F9; color: #14141E">{{ cs.vol }}</span>
+      <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+        <span style="font-family: 'Roboto Mono', monospace; font-size: 20px; font-weight: 500; letter-spacing: -0.04em; color: #020520">{{ cs.code }}</span>
+        <span style="font-size: 13px; color: #6B7280">{{ cs.volLabel }}</span>
+      </div>
+      <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border-radius: 16px; background: #F0F4FE">
+      <span style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 600; color: #020520">
+        <span aria-hidden="true" style="flex: none; width: 8px; height: 8px; border-radius: 9999px; background: {{ cs.dot }}"></span>
+        <span>{{ cs.status }}</span>
+      </span>
+      <span style="font-size: 13px; color: #374151">{{ cs.statusSub }}</span>
+    </div>
+    <sc-if value="{{ cs.hasDue }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+          <span style="min-width: 0; display: flex; flex-direction: column; gap: 1px">
+            <span style="font-size: 13px; font-weight: 500; color: #374151">ჩასარიცხი ამ ობიექტზე</span>
+            <span style="font-size: 12px; color: #6B7280">{{ cs.dueTrip }}</span>
+          </span>
+          <span style="flex: none; font-size: 20px; font-weight: 600; letter-spacing: -0.025em; color: #020520; white-space: nowrap">{{ cs.dueLeft }}</span>
+        </div>
+        <span style="font-size: 13px; font-weight: 500; color: #374151">გადახდილად მონიშვნა</span>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <button type="button" onClick="{{ cs.markBank }}" style="min-height: 46px; padding: 0 12px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">გადარიცხვით</button>
+          <button type="button" onClick="{{ cs.markCash }}" style="min-height: 46px; padding: 0 12px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">ნაღდით</button>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ cs.free }}" hint-placeholder-val="{{ true }}">
+      <button type="button" onClick="{{ cs.deliver }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">მიტანის რეისი</button>
+    </sc-if>
+    <sc-if value="{{ cs.busy }}" hint-placeholder-val="{{ false }}">
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+        <button type="button" onClick="{{ cs.pickup }}" style="min-height: 52px; padding: 0 12px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">გატანა</button>
+        <button type="button" onClick="{{ cs.swap }}" style="min-height: 52px; padding: 0 12px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">შეცვლა</button>
+      </div>
+    </sc-if>
+    <section style="display: flex; flex-direction: column; gap: 6px">
+      <h3 style="margin: 0; font-size: 13px; font-weight: 500; color: #6B7280">ბოლო რეისები</h3>
+      <dl style="margin: 0; display: flex; flex-direction: column">
+        <sc-for list="{{ cs.hist }}" as="r" hint-placeholder-count="4">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-top: {{ r.border }}">
+            <dt style="flex: none; font-size: 13px; color: #6B7280">{{ r.k }}</dt>
+            <dd style="margin: 0; min-width: 0; text-align: right; font-size: 14px; font-weight: 500; color: #14141E">{{ r.v }}</dd>
+          </div>
+        </sc-for>
+      </dl>
+      <sc-if value="{{ cs.noHist }}" hint-placeholder-val="{{ false }}">
+        <p style="margin: 0; font-size: 14px; color: #6B7280">ჯერ არცერთ რეისში არ ყოფილა.</p>
+      </sc-if>
+    </section>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showReg }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end">
+  <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.35); cursor: pointer"></button>
+  <div role="dialog" aria-modal="true" aria-label="კონტეინერების რეგისტრაცია" style="position: relative; max-height: 94%; overflow-y: auto; scrollbar-width: none; background: #FFFFFF; border-radius: 28px 28px 0 0; box-shadow: rgba(2,5,32,0.12) 0px -8px 30px -4px; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 18px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 9999px; background: #E2E8F0"></span>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <h2 style="flex: 1 1 auto; min-width: 0; margin: 0; font-size: 22px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">კონტეინერების რეგისტრაცია</h2>
+      <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+      <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">მოცულობა (კუბატურა), მ³</legend>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px">
+        <sc-for list="{{ regVolChips }}" as="v" hint-placeholder-count="11">
+          <button type="button" onClick="{{ v.pick }}" aria-pressed="{{ v.pressed }}" style="min-height: 44px; border-radius: 9999px; border: 1px solid {{ v.border }}; background: {{ v.bg }}; color: {{ v.fg }}; font: inherit; font-size: 16px; font-weight: {{ v.weight }}; letter-spacing: -0.02em; cursor: pointer">{{ v.label }}</button>
+        </sc-for>
+        <button type="button" onClick="{{ regOther.pick }}" aria-pressed="{{ regOther.pressed }}" style="min-height: 44px; border-radius: 9999px; border: 1px solid {{ regOther.border }}; background: {{ regOther.bg }}; color: {{ regOther.fg }}; font: inherit; font-size: 14px; font-weight: {{ regOther.weight }}; cursor: pointer">სხვა</button>
+      </div>
+      <sc-if value="{{ regOther.pressed }}" hint-placeholder-val="{{ false }}">
+        <label style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+          <span>მოცულობა, მ³</span>
+          <input type="text" inputmode="decimal" value="{{ reg.custom }}" onChange="{{ setRegCustom }}" placeholder="მაგ. 18" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 50px; padding: 0 15px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 20px; font-weight: 600; color: #020520">
+        </label>
+      </sc-if>
+    </fieldset>
+    <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+      <legend style="padding: 0; margin-bottom: 8px; font-size: 13px; font-weight: 500; color: #374151">რაოდენობა</legend>
+      <div style="display: flex; align-items: stretch; gap: 8px">
+        <button type="button" onClick="{{ regDec }}" aria-label="შემცირება" style="flex: none; width: 56px; min-height: 56px; padding: 0; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2.2; stroke-linecap: round"><path d="M5 12h14"></path></svg>
+        </button>
+        <input type="text" inputmode="numeric" value="{{ reg.qty }}" onChange="{{ setRegQty }}" aria-label="რაოდენობა" autocomplete="off" style="flex: 1 1 auto; min-width: 0; box-sizing: border-box; min-height: 56px; padding: 0 12px; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; text-align: center; font: inherit; font-size: 28px; font-weight: 600; letter-spacing: -0.03em; color: #020520">
+        <button type="button" onClick="{{ regInc }}" aria-label="გაზრდა" style="flex: none; width: 56px; min-height: 56px; padding: 0; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; cursor: pointer; display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2.2; stroke-linecap: round"><path d="M12 5v14M5 12h14"></path></svg>
+        </button>
+      </div>
+      <div style="margin-top: 10px; display: flex; gap: 8px">
+        <sc-for list="{{ regQuick }}" as="q" hint-placeholder-count="4">
+          <button type="button" onClick="{{ q.pick }}" aria-pressed="{{ q.pressed }}" style="flex: 1 1 0; min-height: 40px; border-radius: 9999px; border: 1px solid {{ q.border }}; background: {{ q.bg }}; color: {{ q.fg }}; font: inherit; font-size: 15px; font-weight: {{ q.weight }}; cursor: pointer">{{ q.label }}</button>
+        </sc-for>
+      </div>
+    </fieldset>
+    <div style="display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 16px; background: #F0F4FE">
+      <span style="font-size: 12px; color: #374151">მიენიჭება ნომრები</span>
+      <span style="font-family: 'Roboto Mono', monospace; font-size: 17px; font-weight: 500; letter-spacing: -0.03em; color: #145AFF">{{ regPreview }}</span>
+      <span style="font-size: 12px; color: #374151">{{ regAfter }}</span>
+    </div>
+    <sc-if value="{{ hasRegErr }}" hint-placeholder-val="{{ false }}">
+      <span role="alert" style="font-size: 13px; font-weight: 500; color: #C2362A">{{ regErr }}</span>
+    </sc-if>
+    <button type="button" onClick="{{ saveReg }}" style="min-height: 52px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">{{ regBtn }}</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showProfile }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 20; display: flex; flex-direction: column; justify-content: flex-end">
+  <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.35); cursor: pointer"></button>
+  <div role="dialog" aria-modal="true" aria-label="კომპანიის პროფილი" style="position: relative; max-height: 92%; overflow-y: auto; scrollbar-width: none; background: #FFFFFF; border-radius: 28px 28px 0 0; box-shadow: rgba(2,5,32,0.12) 0px -8px 30px -4px; padding: 10px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+    <span aria-hidden="true" style="align-self: center; width: 40px; height: 4px; border-radius: 9999px; background: #E2E8F0"></span>
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span aria-hidden="true" style="flex: none; width: 52px; height: 52px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 14px; overflow: hidden; background: #F0F4FE; color: #145AFF; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 600"><sc-if value="{{ hasLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ coLogo }}" alt="" style="width: 100%; height: 100%; object-fit: contain; background: #FFFFFF"></sc-if><sc-if value="{{ noLogo }}" hint-placeholder-val="{{ true }}"><span>{{ coInitials }}</span></sc-if></span>
+      <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 12px; color: #6B7280">კომპანიის პროფილი</span>
+        <span style="font-size: 21px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">{{ companyFull }}</span>
+      </div>
+      <button type="button" onClick="{{ closeSheet }}" aria-label="დახურვა" style="flex: none; width: 44px; height: 44px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true" style="stroke-width: 2; stroke-linecap: round"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <dl style="margin: 0; padding: 4px 16px; border: 1px solid #E2E8F0; border-radius: 16px; display: flex; flex-direction: column">
+      <sc-for list="{{ profRows }}" as="r" hint-placeholder-count="5">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-top: {{ r.border }}">
+          <dt style="flex: none; font-size: 13px; color: #6B7280">{{ r.k }}</dt>
+          <dd style="margin: 0; min-width: 0; text-align: right; font-size: 14px; font-weight: 500; color: #14141E; overflow-wrap: anywhere">{{ r.v }}</dd>
+        </div>
+      </sc-for>
+    </dl>
+    <button type="button" onClick="{{ editProfile }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">პროფილის რედაქტირება</button>
+    <button type="button" onClick="{{ signOut }}" style="min-height: 50px; padding: 0 24px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 15px; font-weight: 500; cursor: pointer">ანგარიშიდან გასვლა</button>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPuAsk }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 30; box-sizing: border-box; padding: 16px; display: flex; align-items: center; justify-content: center">
+  <button type="button" onClick="{{ pu.cancel }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.40); cursor: pointer"></button>
+  <div role="alertdialog" aria-modal="true" aria-label="გატანის დადასტურება" style="position: relative; width: 344px; max-width: 100%; max-height: 100%; overflow-y: auto; scrollbar-width: none; box-sizing: border-box; padding: 20px; border: 1px solid #E2E8F0; border-radius: 24px; background: #FFFFFF; box-shadow: rgba(20,90,255,0.22) 0px 24px 60px -20px, rgba(0,0,0,0.08) 0px 1.37px 6.87px -2.8px; display: flex; flex-direction: column; gap: 14px">
+    <div style="display: flex; align-items: center; gap: 12px">
+      <span aria-hidden="true" style="flex: none; width: 44px; height: 44px; border-radius: 9999px; background: #E8F6F3; color: #0B7A6E; display: flex; align-items: center; justify-content: center">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round"><path d="M2.5 6.5h11v9h-11z"></path><path d="M13.5 9.5h4l3 3v3h-7"></path><circle cx="6.5" cy="17.5" r="1.8"></circle><circle cx="16.5" cy="17.5" r="1.8"></circle></svg>
+      </span>
+      <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px">
+        <span style="font-size: 19px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">გატანის დადასტურება</span>
+        <span style="font-size: 13px; color: #6B7280">{{ pu.what }}</span>
+      </div>
+    </div>
+    <div style="padding: 14px 16px; border-radius: 16px; background: #F0F4FE; display: flex; flex-direction: column; gap: 6px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px">
+        <span style="min-width: 0; font-size: 13px; font-weight: 500; color: #374151">ჯამური გადასახდელი</span>
+        <span style="flex: none; font-size: 30px; line-height: 1.15; font-weight: 600; letter-spacing: -0.035em; color: #020520; white-space: nowrap">{{ pu.due }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column">
+        <sc-for list="{{ pu.lines }}" as="ln" hint-placeholder-count="3">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 6px 0; border-top: 1px solid rgba(20,90,255,0.14)">
+            <span style="min-width: 0; font-size: 12.5px; color: #374151">{{ ln.label }}</span>
+            <span style="flex: none; font-size: 12.5px; font-weight: 600; white-space: nowrap; color: {{ ln.color }}">{{ ln.value }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <sc-if value="{{ pu.allPaid }}" hint-placeholder-val="{{ false }}">
+      <p style="margin: 0; font-size: 13px; color: #6B7280">{{ pu.paidNote }}</p>
+    </sc-if>
+    <sc-if value="{{ pu.canPay }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 500; color: #374151; min-width: 0">
+          <span>გადახდა გატანისას — სურვილისამებრ</span>
+          <input type="text" inputmode="decimal" value="{{ pu.amount }}" onChange="{{ pu.setAmount }}" placeholder="თანხა, ₾" autocomplete="off" style="box-sizing: border-box; width: 100%; min-height: 54px; padding: 0 15px; border: 1px solid #145AFF; border-radius: 12px; background: #FFFFFF; font: inherit; font-size: 22px; font-weight: 600; letter-spacing: -0.03em; color: #020520">
+        </label>
+        <sc-if value="{{ pu.hasQuick }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <sc-for list="{{ pu.quick }}" as="qk" hint-placeholder-count="2">
+              <button type="button" onClick="{{ qk.pick }}" aria-pressed="{{ qk.pressed }}" style="min-height: 40px; padding: 0 12px; border-radius: 9999px; border: 1px solid {{ qk.border }}; background: {{ qk.bg }}; color: {{ qk.fg }}; font: inherit; font-size: 13px; font-weight: {{ qk.weight }}; cursor: pointer; white-space: nowrap">{{ qk.label }} · {{ qk.value }}</button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; padding: 3px; border-radius: 9999px; background: #F1F5F9">
+          <sc-for list="{{ pu.methodSeg }}" as="ms" hint-placeholder-count="2">
+            <button type="button" onClick="{{ ms.pick }}" aria-pressed="{{ ms.pressed }}" style="min-width: 0; min-height: 40px; padding: 0 6px; border: 0; border-radius: 9999px; background: {{ ms.bg }}; color: {{ ms.fg }}; box-shadow: {{ ms.shadow }}; font: inherit; font-size: 14px; font-weight: {{ ms.weight }}; cursor: pointer; white-space: nowrap">{{ ms.label }}</button>
+          </sc-for>
+        </div>
+        <p style="margin: 0; font-size: 12.5px; line-height: 1.45; color: #6B7280">{{ pu.explain }}</p>
+      </div>
+    </sc-if>
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <button type="button" onClick="{{ pu.confirm }}" style="min-height: 52px; padding: 0 16px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">{{ pu.btn }}</button>
+      <button type="button" onClick="{{ pu.cancel }}" style="min-height: 44px; padding: 0 16px; border: 0; border-radius: 9999px; background: transparent; color: #374151; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">გაუქმება</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showPayAsk }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 30; box-sizing: border-box; padding: 24px; display: flex; align-items: center; justify-content: center">
+  <button type="button" onClick="{{ pa.cancel }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.40); cursor: pointer"></button>
+  <div role="alertdialog" aria-modal="true" aria-label="გადახდის დადასტურება" style="position: relative; width: 326px; max-width: 100%; box-sizing: border-box; padding: 22px 20px 20px; border: 1px solid #E2E8F0; border-radius: 24px; background: #FFFFFF; box-shadow: rgba(20,90,255,0.22) 0px 24px 60px -20px, rgba(0,0,0,0.08) 0px 1.37px 6.87px -2.8px; display: flex; flex-direction: column; gap: 12px">
+    <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 9999px; background: #F0F4FE; color: #145AFF; display: flex; align-items: center; justify-content: center">
+      <sc-if value="{{ pa.isCash }}" hint-placeholder-val="{{ true }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round"><rect x="2.5" y="6" width="19" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.6"></circle><path d="M6 9.5v5M18 9.5v5"></path></svg>
+      </sc-if>
+      <sc-if value="{{ pa.isBank }}" hint-placeholder-val="{{ false }}">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round"><path d="M3 9.5 12 4l9 5.5"></path><path d="M5 10v7M9.5 10v7M14.5 10v7M19 10v7"></path><path d="M3 20h18"></path></svg>
+      </sc-if>
+    </span>
+    <span style="font-size: 19px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">{{ pa.title }}</span>
+    <div style="padding: 14px 16px; border-radius: 16px; background: #F0F4FE; display: flex; flex-direction: column; gap: 2px">
+      <span style="font-size: 13px; font-weight: 500; color: #145AFF">{{ pa.methodLabel }}</span>
+      <span style="font-size: 34px; line-height: 1.15; font-weight: 600; letter-spacing: -0.035em; color: #020520; white-space: nowrap">{{ pa.amount }}</span>
+    </div>
+    <dl style="margin: 0; display: flex; flex-direction: column">
+      <sc-for list="{{ pa.rows }}" as="r" hint-placeholder-count="3">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 8px 0; border-top: {{ r.border }}">
+          <dt style="flex: none; font-size: 13px; color: #6B7280">{{ r.k }}</dt>
+          <dd style="margin: 0; min-width: 0; text-align: right; font-size: 14px; font-weight: 500; color: #14141E">{{ r.v }}</dd>
+        </div>
+      </sc-for>
+    </dl>
+    <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #6B7280">{{ pa.note }}</p>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+      <button type="button" onClick="{{ pa.cancel }}" style="min-height: 48px; padding: 0 10px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">არა, გაუქმება</button>
+      <button type="button" onClick="{{ pa.confirm }}" style="min-height: 48px; padding: 0 10px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: rgba(20,90,255,0.3) 0px 0px 4px -2px">{{ pa.confirmLabel }}</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showDelAsk }}" hint-placeholder-val="{{ false }}">
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 30; box-sizing: border-box; padding: 24px; display: flex; align-items: center; justify-content: center">
+  <button type="button" onClick="{{ tdel.cancel }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; background: rgba(2,5,32,0.40); cursor: pointer"></button>
+  <div role="alertdialog" aria-modal="true" aria-label="რეისის გაუქმება" style="position: relative; width: 326px; max-width: 100%; box-sizing: border-box; padding: 22px 20px 20px; border: 1px solid #E2E8F0; border-radius: 24px; background: #FFFFFF; box-shadow: rgba(2,5,32,0.25) 0px 24px 60px -20px, rgba(0,0,0,0.08) 0px 1.37px 6.87px -2.8px; display: flex; flex-direction: column; gap: 12px">
+    <span aria-hidden="true" style="width: 48px; height: 48px; border-radius: 9999px; background: #FFF1EF; color: #C2362A; display: flex; align-items: center; justify-content: center">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 12.5h9l1-12.5M10 11v5M14 11v5"></path></svg>
+    </span>
+    <span style="font-size: 19px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">{{ tdel.title }}</span>
+    <span style="padding: 10px 12px; border-radius: 12px; background: #F1F5F9; font-size: 13px; font-weight: 500; color: #14141E">{{ tdel.what }}</span>
+    <sc-if value="{{ tdel.blocked }}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #374151">{{ tdel.blockText }}</p>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <button type="button" onClick="{{ tdel.cancel }}" style="min-height: 48px; padding: 0 10px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">დახურვა</button>
+          <button type="button" onClick="{{ tdel.openBlocker }}" style="min-height: 48px; padding: 0 10px; border: 1px solid #145AFF; border-radius: 9999px; background: #FFFFFF; color: #145AFF; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">შემდეგი რეისი</button>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ tdel.allowed }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #374151">{{ tdel.effect }}</p>
+        <sc-if value="{{ tdel.hasLinked }}" hint-placeholder-val="{{ false }}">
+          <label style="display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #FFFFFF; cursor: pointer">
+            <input type="checkbox" checked="{{ tdel.payChecked }}" onChange="{{ tdel.togglePays }}" style="flex: none; width: 20px; height: 20px; margin: 0; accent-color: #C2362A">
+            <span style="min-width: 0; display: flex; flex-direction: column; gap: 2px">
+              <span style="font-size: 14px; font-weight: 500; color: #14141E">{{ tdel.linkedText }}</span>
+              <span style="font-size: 12px; color: #6B7280">თუ არ მონიშნავთ, თანხა კლიენტის ბალანსზე დარჩება</span>
+            </span>
+          </label>
+        </sc-if>
+        <span style="font-size: 12px; color: #6B7280">ადმინისტრატორის მოქმედება — გაუქმებული რეისი ვეღარ აღდგება.</span>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <button type="button" onClick="{{ tdel.cancel }}" style="min-height: 48px; padding: 0 10px; border: 1px solid #E2E8F0; border-radius: 9999px; background: #FFFFFF; color: #020520; font: inherit; font-size: 14px; font-weight: 500; cursor: pointer">არა, დატოვება</button>
+          <button type="button" onClick="{{ tdel.confirm }}" style="min-height: 48px; padding: 0 10px; border: 1px solid #C2362A; border-radius: 9999px; background: #FFFFFF; color: #C2362A; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: rgba(194,54,42,0.25) 0px 0px 4px -2px">დიახ, გაუქმება</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 40; box-sizing: border-box; padding: 24px; display: flex; align-items: center; justify-content: center">
+  <button type="button" onClick="{{ dismissToast }}" aria-label="დახურვა" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 0; padding: 0; margin: 0; cursor: pointer; background: rgba(2,5,32,0.30); backdrop-filter: blur(3px); opacity: {{ toast.bdOp }}; transition: opacity 260ms ease-out"></button>
+  <div style="position: relative; width: 292px; max-width: 100%; box-sizing: border-box; padding: 30px 24px 26px; border: 1px solid #E2E8F0; border-radius: 28px; background: #FFFFFF; box-shadow: rgba(20,90,255,0.22) 0px 28px 64px -24px, rgba(0,0,0,0.08) 0px 1.37px 6.87px -2.8px; display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; pointer-events: none; opacity: {{ toast.cardOp }}; transform: {{ toast.cardTf }}; transition: {{ toast.cardTr }}">
+    <span aria-hidden="true" style="position: relative; width: 76px; height: 76px; margin-bottom: 8px; display: flex; align-items: center; justify-content: center">
+      <span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 9999px; background: #145AFF; opacity: {{ toast.ringOp }}; transform: {{ toast.ringTf }}; transition: transform 900ms ease-out 260ms, opacity 900ms ease-out 260ms"></span>
+      <span style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 9999px; background: #145AFF; box-shadow: rgba(20,90,255,0.45) 0px 12px 26px -8px; transform: {{ toast.discTf }}; transition: transform 480ms cubic-bezier(0.34, 1.56, 0.64, 1) 80ms"></span>
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" style="position: relative; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round"><path d="m5 12.5 4.5 4.5L19 7.5" style="stroke-dasharray: 24; stroke-dashoffset: {{ toast.chkOff }}; transition: stroke-dashoffset 380ms ease-out 340ms"></path></svg>
+    </span>
+    <span style="font-size: 20px; line-height: 1.25; font-weight: 600; letter-spacing: -0.02em; color: #020520">{{ toast.title }}</span>
+    <sc-if value="{{ toast.hasAmount }}" hint-placeholder-val="{{ true }}">
+      <span style="font-size: 30px; line-height: 1.15; font-weight: 600; letter-spacing: -0.035em; color: #145AFF; white-space: nowrap">{{ toast.amount }}</span>
+    </sc-if>
+    <sc-if value="{{ toast.hasDetail }}" hint-placeholder-val="{{ true }}">
+      <span style="font-size: 14px; line-height: 1.45; color: #374151; overflow-wrap: anywhere">{{ toast.detail }}</span>
+    </sc-if>
+  </div>
+</div>
+</sc-if>
+
+</div>
