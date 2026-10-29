@@ -520,13 +520,14 @@ export default class Component extends DCLogic {
 
     var go = function (screen, extra) { set(Object.assign({ screen: screen, sheet: null, picker: CLOSED, menuOpen: false }, extra || {})); };
     var openClient = function (cid, back) { go('client', { clientId: cid, clientTab: 'trips', back: back }); };
-    var openCont = function (code) { set({ sheet: 'cont', contSheet: code }); };
+    var openCont = function (code) { set({ sheet: 'cont', contSheet: code, contDelAsk: '' }); };
     var askMark = function (ids, method, ctx) { set({ payAsk: { ids: ids.slice(), method: method, ctx: ctx || 'trip' } }); };
 
     var tripCode = function (t) { return t.type === 'swap' && t.newCont ? t.cont + ' → ' + t.newCont : t.cont; };
     var tripVol = function (t) {
       if (t.type === 'swap' && t.newCont) {
         var a = volOf[t.cont], b = volOf[t.newCont];
+        if (!a || !b) return (a || b) ? self.vb(a || b) : ''; // a deleted container keeps its trips, not its volume
         return a === b ? self.vb(b) : String(a).replace('.', ',') + '→' + String(b).replace('.', ',');
       }
       return volOf[t.cont] ? self.vb(volOf[t.cont]) : '';
@@ -863,7 +864,8 @@ export default class Component extends DCLogic {
     });
 
     var csC = s.contSheet ? contsSorted.filter(function (c) { return c.code === s.contSheet; })[0] : null;
-    var cs = { code: '', vol: '', volLabel: '', status: '', statusSub: '', dot: '#16CA2E', free: false, busy: false, hist: [], noHist: true, deliver: noop, pickup: noop, swap: noop, hasDue: false, dueLeft: '', dueTrip: '', markBank: noop, markCash: noop };
+    var cs = { code: '', vol: '', volLabel: '', status: '', statusSub: '', dot: '#16CA2E', free: false, busy: false, hist: [], noHist: true, deliver: noop, pickup: noop, swap: noop, hasDue: false, dueLeft: '', dueTrip: '', markBank: noop, markCash: noop,
+      canDelete: false, delAsk: false, delBlocked: false, delText: '', askDelete: noop, cancelDelete: noop, confirmDelete: noop };
     if (csC) {
       var clc = loc[csC.code], h = (chist[csC.code] || []).slice().reverse().slice(0, 6);
       var hLabel = function (t) {
@@ -883,6 +885,21 @@ export default class Component extends DCLogic {
         swap: function () { go('new', { form: self.blankForm('', { type: 'swap', place: csC.code, vol: csC.vol }), formErr: '', placeQ: '' }); },
         hasDue: false, dueLeft: '', dueTrip: '', markBank: noop, markCash: noop
       };
+      // delete: owner only, and only a container standing in the warehouse; its past trips stay in history
+      var nTrips = (chist[csC.code] || []).length, cDelAsk = !!s.contDelAsk && s.contDelAsk === csC.code;
+      cs.canDelete = isOwner && !clc && !cDelAsk;
+      cs.delAsk = isOwner && !clc && cDelAsk;
+      cs.delBlocked = isOwner && !!clc;
+      cs.delText = nTrips
+        ? csC.code + ' გაქრება კონტეინერების სიიდან. მისი ' + nTrips + ' რეისი ისტორიაში დარჩება, ვალები და ჩარიცხვები არ შეიცვლება.'
+        : csC.code + ' გაქრება კონტეინერების სიიდან. რეისებში ჯერ არ ყოფილა.';
+      cs.askDelete = function () { if (isOwner) set({ contDelAsk: csC.code }); };
+      cs.cancelDelete = function () { set({ contDelAsk: '' }); };
+      cs.confirmDelete = function () {
+        if (!isOwner || loc[csC.code]) return;
+        self.flash({ containers: s.containers.filter(function (c) { return c.id !== csC.id; }), sheet: null, contSheet: '', contDelAsk: '' },
+          { title: 'კონტეინერი წაიშალა', detail: csC.code + ' · ' + self.vl(csC.vol) });
+      };
       var cr = clc ? chainSum(clc.chain) : null;
       if (cr && cr.left > 0) {
         cs.hasDue = true;
@@ -900,6 +917,7 @@ export default class Component extends DCLogic {
     var rPrefix = 'K' + String(rVol) + '-';
     var rMax = 0;
     s.containers.forEach(function (c) { if (c.code.indexOf(rPrefix) === 0) rMax = Math.max(rMax, self.codeNum(c.code)); });
+    s.trips.forEach(function (t) { [t.cont, t.newCont].forEach(function (c) { if (c && c.indexOf(rPrefix) === 0) rMax = Math.max(rMax, self.codeNum(c)); }); });
     var rW = Math.max(2, String(rMax + rQty).length);
     var rCode = function (k) { var x = String(k); while (x.length < rW) x = '0' + x; return rPrefix + x; };
     var rOk = rVol > 0 && rQty > 0 && rQty <= 200;
@@ -924,7 +942,7 @@ export default class Component extends DCLogic {
       var addC = [];
       for (var k = 1; k <= rQty; k++) { var code = rCode(rMax + k); addC.push({ id: self.uid(), code: code, vol: rVol, added: T }); }
       self.flash({ containers: s.containers.concat(addC), sheet: null, screen: 'containers', contVol: rVol, contFilter: 'all', regErr: '' },
-        { title: 'კონტეინერები დარეგისტრირდა', amount: rQty + ' × ' + self.vl(rVol), detail: rPreview });
+        { title: rQty === 1 ? 'კონტეინერი შეიქმნა' : 'კონტეინერები შეიქმნა', amount: rQty + ' × ' + self.vl(rVol), detail: rPreview });
     };
 
     var siteCount = {};
@@ -1456,8 +1474,8 @@ export default class Component extends DCLogic {
       regDec: function () { setR({ qty: String(Math.max(1, rQty - 1)) }); },
       regInc: function () { setR({ qty: String(Math.min(200, rQty + 1)) }); },
       regPreview: rPreview,
-      regAfter: rVol > 0 ? 'რეგისტრაციის შემდეგ ' + this.vl(rVol) + ' კონტეინერი იქნება სულ ' + (rHave + (rOk ? rQty : 0)) + ' ცალი' : '',
-      regBtn: rOk ? rQty + ' × ' + this.vl(rVol) + ' — რეგისტრაცია' : 'რეგისტრაცია',
+      regAfter: rVol > 0 ? 'შექმნის შემდეგ ' + this.vl(rVol) + ' კონტეინერი იქნება სულ ' + (rHave + (rOk ? rQty : 0)) + ' ცალი' : '',
+      regBtn: rOk ? rQty + ' × ' + this.vl(rVol) + ' — შექმნა' : 'შექმნა',
       hasRegErr: !!s.regErr, regErr: s.regErr, saveReg: saveReg,
 
       clientRows: clientRows, noClients: clientRows.length === 0,

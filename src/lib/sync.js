@@ -25,6 +25,15 @@ async function apply(sb, base, next) {
     const { error } = await sb.from(TABLE_NAME.companies).upsert(next.company.row, { onConflict: 'owner_id' });
     if (error) throw error;
   }
+  // deletes first (children before parents), then upserts (parents before children)
+  for (const t of TABLES.slice().reverse()) {
+    const gone = [];
+    base.tables[t].forEach((v, id) => { if (!next.tables[t].has(id)) gone.push(id); });
+    if (gone.length) {
+      const { error } = await sb.from(TABLE_NAME[t]).delete().in('id', gone);
+      if (error) throw error;
+    }
+  }
   for (const t of TABLES) {
     const up = [];
     next.tables[t].forEach((v, id) => {
@@ -33,14 +42,6 @@ async function apply(sb, base, next) {
     });
     if (up.length) {
       const { error } = await sb.from(TABLE_NAME[t]).upsert(up, { onConflict: 'id' });
-      if (error) throw error;
-    }
-  }
-  for (const t of TABLES.slice().reverse()) {
-    const gone = [];
-    base.tables[t].forEach((v, id) => { if (!next.tables[t].has(id)) gone.push(id); });
-    if (gone.length) {
-      const { error } = await sb.from(TABLE_NAME[t]).delete().in('id', gone);
       if (error) throw error;
     }
   }
